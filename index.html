@@ -84,6 +84,7 @@
     .secondary-btn { color: var(--ink); background: rgba(255, 253, 249, .65); border: 1px solid var(--line); }
     .secondary-btn:hover { background: var(--paper); transform: translateY(-1px); }
     .tiny-hint { margin: 12px 0 0; font-size: 12px; color: var(--ink-soft); }
+    .saved-hint { display: block; margin-top: 7px; color: var(--sage); font-weight: 600; }
 
     .hero-art { position: relative; min-height: 460px; display: grid; place-items: center; }
     .moon { width: min(370px, 78vw); aspect-ratio: 1; border-radius: 50%; background: #f1d9a6; position: relative; box-shadow: inset -26px -16px 0 rgba(201, 155, 69, .22), 0 32px 0 rgba(231, 111, 99, .10); animation: moonFloat 7s ease-in-out infinite; }
@@ -389,9 +390,10 @@
             <p class="hero-intro">用 13–14 个日常瞬间，在十二种生肖气质里看见你的关系本能。结果不是标签，而是一张更懂自己的相处地图。</p>
             <div class="hero-actions">
               <button class="primary-btn" id="startBtn" type="button">开始测评 <span aria-hidden="true">→</span></button>
+              <button class="secondary-btn" id="savedResultBtn" type="button" hidden>查看已保存结果</button>
               <button class="secondary-btn" id="homeInfoBtn" type="button">先看看说明</button>
             </div>
-            <p class="tiny-hint">无需登录 · 不收集个人信息 · 可随时返回修改</p>
+            <p class="tiny-hint">无需登录 · 不收集个人信息 · 可随时返回修改<span class="saved-hint" id="savedHint" hidden></span></p>
           </div>
           <div class="hero-art" aria-label="月亮与兔子插画" role="img">
             <div class="moon"></div>
@@ -449,7 +451,7 @@
               <b>选择女生版 <span aria-hidden="true">→</span></b>
             </button>
           </div>
-          <p class="privacy-note">不保存此选择 · 不收集个人信息</p>
+          <p class="privacy-note">选择不会自动保存 · 不收集个人信息</p>
           <button class="secondary-btn version-back" id="versionBackBtn" type="button">← 返回首页</button>
         </div>
       </div>
@@ -525,7 +527,7 @@
           <div class="review-list" id="reviewList"></div>
           <details class="model-details"><summary>查看本次匹配计算与十二原型距离</summary><div id="matchAudit"></div></details>
         </section>
-        <div class="result-actions"><button class="secondary-btn" id="editBtn" type="button">← 返回修改答案</button><button class="primary-btn" id="restartBtn" type="button">重新测试 <span aria-hidden="true">↻</span></button></div>
+        <div class="result-actions"><button class="primary-btn" id="saveResultBtn" type="button">保存本次结果</button><button class="secondary-btn" id="editBtn" type="button">← 返回修改答案</button><button class="secondary-btn" id="restartBtn" type="button">重新测试 <span aria-hidden="true">↻</span></button></div>
         <div class="footer">月下生肖 · 原创非专业自评 · 结果仅供自我觉察与沟通参考</div>
       </div>
     </section>
@@ -1177,17 +1179,102 @@ function scoreAnswers(bank, selections) {
 
 
 const versionConfig = {
-  male: { label: '男生版', questions: questionBanks.male },
-  female: { label: '女生版', questions: questionBanks.female }
+  male: { key: 'male', label: '男生版', questions: questionBanks.male },
+  female: { key: 'female', label: '女生版', questions: questionBanks.female }
 };
+const STORAGE_KEY = 'moon-zodiac-love-result-v1';
 let selectedVersion = null;
 let activeQuestions = [];
 let currentIndex = 0;
 let answers = [];
 let hasReport = false;
+let toastTimer = null;
 const $ = id => document.getElementById(id);
 const escapeHtml = value => String(value).replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char]);
 const motionBehavior = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth';
+
+function showToast(message) {
+  const toast = $('toast');
+  toast.textContent = message;
+  toast.classList.add('show');
+  window.clearTimeout(toastTimer);
+  toastTimer = window.setTimeout(() => toast.classList.remove('show'), 3200);
+}
+
+function isValidSavedResult(data) {
+  const bank = data && questionBanks[data.version];
+  return Boolean(bank && data.schema === 1 && data.modelVersion === MODEL_VERSION &&
+    Array.isArray(data.answers) && data.answers.length === bank.length &&
+    data.answers.every(answer => Number.isInteger(answer) && answer >= 0 && answer <= 3) &&
+    Number.isFinite(data.savedAt));
+}
+
+function readSavedResult() {
+  try {
+    const raw = window.localStorage.getItem(STORAGE_KEY);
+    if (!raw) return null;
+    const saved = JSON.parse(raw);
+    return isValidSavedResult(saved) ? saved : null;
+  } catch (error) {
+    return null;
+  }
+}
+
+function sameAsSaved(saved) {
+  return Boolean(saved && selectedVersion && saved.version === selectedVersion.key &&
+    saved.answers.length === answers.length && saved.answers.every((answer, index) => answer === answers[index]));
+}
+
+function formatSavedTime(timestamp) {
+  return new Intl.DateTimeFormat('zh-CN', {
+    month: 'numeric', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: false
+  }).format(new Date(timestamp));
+}
+
+function updateSavedControls() {
+  const saved = readSavedResult();
+  $('savedResultBtn').hidden = !saved;
+  $('savedHint').hidden = !saved;
+  if (saved) {
+    const result = scoreAnswers(questionBanks[saved.version], saved.answers);
+    $('savedResultBtn').textContent = `查看已保存的${result.archetype.name}`;
+    $('savedHint').textContent = `${versionConfig[saved.version].label} · ${formatSavedTime(saved.savedAt)}保存在此浏览器`;
+  }
+  if (hasReport) $('saveResultBtn').textContent = sameAsSaved(saved) ? '已保存到此浏览器 ✓' : '保存本次结果';
+}
+
+function saveCurrentResult() {
+  if (!selectedVersion || answers.length !== activeQuestions.length || answers.some(answer => answer === null)) return;
+  try {
+    window.localStorage.setItem(STORAGE_KEY, JSON.stringify({
+      schema: 1,
+      modelVersion: MODEL_VERSION,
+      version: selectedVersion.key,
+      answers: [...answers],
+      savedAt: Date.now()
+    }));
+    updateSavedControls();
+    showToast('已保存在此浏览器，下次打开网页可以继续查看。');
+  } catch (error) {
+    showToast('当前浏览器不允许本地保存，请检查隐私或存储设置。');
+  }
+}
+
+function openSavedResult() {
+  const saved = readSavedResult();
+  if (!saved) {
+    updateSavedControls();
+    showToast('没有找到可用的已保存结果。');
+    return;
+  }
+  selectedVersion = versionConfig[saved.version];
+  activeQuestions = selectedVersion.questions;
+  answers = [...saved.answers];
+  currentIndex = 0;
+  hasReport = false;
+  renderResult();
+  showView('resultView');
+}
 
 function showView(viewId) {
   document.querySelectorAll('.view').forEach(view => view.classList.toggle('is-active', view.id === viewId));
@@ -1328,6 +1415,7 @@ function renderResult() {
   }));
   $('matchAudit').innerHTML = `<p>十维等权，采用未取整均值。距离越小越接近，距离不是概率、准确率或专业诊断。相同版本、相同答案始终得到相同排序；前两名距离差小于 3 时显示混合倾向，这个阈值是编辑设定。</p><div class="model-table-wrap"><table class="model-table"><thead><tr><th scope="col">维度</th><th scope="col">三题有效分</th><th scope="col">你的得分</th><th scope="col">原型参考</th></tr></thead><tbody>${dimensions.map(dimension => `<tr><th scope="row">${dimension.label}</th><td>${result.evidence[dimension.key].map(item => `${item.questionId}: ${item.value}`).join(' / ')}</td><td>${scores[dimension.key].toFixed(2)}</td><td>${type.profile[dimension.key]}</td></tr>`).join('')}</tbody></table></div><ol>${result.ranked.map(item => `<li>${item.type.name}：距离 ${item.distance.toFixed(3)}</li>`).join('')}</ol>`;
   hasReport = true;
+  updateSavedControls();
 }
 
 function submitReport() {
@@ -1360,6 +1448,7 @@ function startVersion(versionKey) {
 }
 
 $('startBtn').addEventListener('click', chooseVersion);
+$('savedResultBtn').addEventListener('click', openSavedResult);
 $('maleVersionBtn').addEventListener('click', () => startVersion('male'));
 $('femaleVersionBtn').addEventListener('click', () => startVersion('female'));
 $('versionBackBtn').addEventListener('click', () => showView('homeView'));
@@ -1367,6 +1456,7 @@ $('homeInfoBtn').addEventListener('click', () => $('infoAnchor').scrollIntoView(
 $('prevBtn').addEventListener('click', () => { if (currentIndex > 0) { currentIndex -= 1; renderQuestion(); } });
 $('nextBtn').addEventListener('click', validateAndNext);
 $('recalculateBtn').addEventListener('click', submitReport);
+$('saveResultBtn').addEventListener('click', saveCurrentResult);
 $('editBtn').addEventListener('click', () => { currentIndex = 0; showView('quizView'); renderQuestion(); });
 $('restartBtn').addEventListener('click', chooseVersion);
 $('changeVersionBtn').addEventListener('click', chooseVersion);
@@ -1375,6 +1465,7 @@ $('zodiacPrev').addEventListener('click', () => $('zodiacRail').scrollBy({ left:
 $('zodiacNext').addEventListener('click', () => $('zodiacRail').scrollBy({ left: $('zodiacRail').clientWidth * .82, behavior: motionBehavior() }));
 renderZodiacGallery();
 renderModelOverview();
+updateSavedControls();
   </script>
 </body>
 </html>
