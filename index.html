@@ -1,0 +1,1380 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#1f2a44" />
+  <title>月下生肖恋爱测评</title>
+  <style>
+    :root {
+      --ink: #1f2a44;
+      --ink-soft: #41506d;
+      --cream: #fbf7f0;
+      --paper: #fffdf9;
+      --rose: #e76f63;
+      --rose-dark: #c5524d;
+      --gold: #c99b45;
+      --sage: #719081;
+      --sky: #78a8bd;
+      --line: #e8dfd3;
+      --shadow: 0 18px 45px rgba(35, 42, 61, .11);
+      --radius-lg: 28px;
+      --radius-md: 18px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 12% 8%, rgba(231, 111, 99, .10), transparent 28%),
+        radial-gradient(circle at 92% 12%, rgba(120, 168, 189, .12), transparent 22%),
+        var(--cream);
+      font-family: "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    button { font: inherit; }
+    button:focus-visible { outline: 3px solid rgba(120, 168, 189, .6); outline-offset: 3px; }
+    .shell { width: min(1120px, calc(100% - 40px)); margin: 0 auto; }
+    .topbar {
+      width: min(1120px, calc(100% - 40px));
+      margin: 0 auto;
+      min-height: 78px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+    .brand { display: inline-flex; align-items: center; gap: 12px; text-decoration: none; color: var(--ink); }
+    .brand-mark {
+      width: 38px; height: 38px; border-radius: 12px;
+      display: grid; place-items: center;
+      color: var(--paper); background: var(--ink);
+      font-size: 22px; transform: rotate(-7deg);
+      box-shadow: 4px 5px 0 rgba(201, 155, 69, .55);
+    }
+    .brand-copy { display: grid; line-height: 1.2; }
+    .brand-copy strong { font-family: Georgia, "Times New Roman", serif; font-size: 17px; letter-spacing: .03em; }
+    .brand-copy span { font-size: 11px; color: var(--ink-soft); letter-spacing: .08em; }
+    .top-note { color: var(--ink-soft); font-size: 13px; }
+
+    .view { display: none; min-height: calc(100vh - 78px); padding: 20px 0 72px; }
+    .view.is-active { display: block; }
+
+    /* Landing */
+    .hero { display: grid; grid-template-columns: 1.05fr .95fr; align-items: center; gap: 70px; padding: 54px 0 38px; }
+    .eyebrow { display: inline-flex; align-items: center; gap: 8px; color: var(--rose-dark); font-size: 13px; font-weight: 700; letter-spacing: .14em; }
+    .eyebrow::before { content: ""; display: inline-block; width: 26px; height: 2px; background: var(--rose); }
+    h1, h2, h3, p { margin-top: 0; }
+    .hero h1 { max-width: 600px; margin: 18px 0 18px; font-family: Georgia, "Times New Roman", serif; font-size: clamp(40px, 6vw, 72px); line-height: 1.04; letter-spacing: -.045em; font-weight: 700; }
+    .hero h1 em { color: var(--rose); font-style: normal; position: relative; }
+    .hero h1 em::after { content: ""; position: absolute; left: 3%; bottom: -5px; width: 98%; height: 8px; background: rgba(201, 155, 69, .32); border-radius: 80% 20%; transform: rotate(-2deg); z-index: -1; }
+    .hero-intro { max-width: 550px; color: var(--ink-soft); font-size: 17px; margin-bottom: 28px; }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+    .primary-btn, .secondary-btn {
+      border: 0; border-radius: 14px; padding: 13px 20px; min-height: 48px;
+      cursor: pointer; transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
+      display: inline-flex; align-items: center; justify-content: center; gap: 9px;
+    }
+    .primary-btn { color: var(--paper); background: var(--ink); box-shadow: 0 8px 18px rgba(31, 42, 68, .18); font-weight: 700; }
+    .primary-btn:hover { transform: translateY(-2px); box-shadow: 0 12px 22px rgba(31, 42, 68, .24); }
+    .secondary-btn { color: var(--ink); background: rgba(255, 253, 249, .65); border: 1px solid var(--line); }
+    .secondary-btn:hover { background: var(--paper); transform: translateY(-1px); }
+    .tiny-hint { margin: 12px 0 0; font-size: 12px; color: var(--ink-soft); }
+
+    .hero-art { position: relative; min-height: 460px; display: grid; place-items: center; }
+    .moon { width: min(370px, 78vw); aspect-ratio: 1; border-radius: 50%; background: #f1d9a6; position: relative; box-shadow: inset -26px -16px 0 rgba(201, 155, 69, .22), 0 32px 0 rgba(231, 111, 99, .10); animation: moonFloat 7s ease-in-out infinite; }
+    .moon::before, .moon::after { content: ""; position: absolute; border-radius: 50%; background: rgba(255, 253, 249, .36); }
+    .moon::before { width: 44px; height: 44px; left: 22%; top: 25%; box-shadow: 78px 68px 0 11px rgba(255, 253, 249, .23), 154px 18px 0 4px rgba(255, 253, 249, .2); }
+    .moon::after { width: 24px; height: 24px; left: 58%; top: 67%; box-shadow: -108px 34px 0 5px rgba(255, 253, 249, .2); }
+    .art-label { position: absolute; top: 12%; left: 6%; padding: 10px 14px; background: var(--paper); border-radius: 10px; box-shadow: var(--shadow); color: var(--rose-dark); font-size: 13px; font-weight: 700; transform: rotate(-7deg); animation: noteFloat 5.6s ease-in-out infinite; }
+    .art-label.small { top: auto; left: auto; right: 0; bottom: 18%; color: var(--sage); transform: rotate(5deg); animation: noteFloatSmall 6.4s ease-in-out .5s infinite; }
+    .rabbit { position: absolute; width: 190px; height: 166px; left: 50%; top: 50%; transform: translate(-45%, -38%); }
+    .rabbit .ear { position: absolute; width: 38px; height: 94px; top: 0; background: var(--ink); border-radius: 60% 60% 38% 38%; transform: rotate(-15deg); transform-origin: 50% 100%; animation: earLeft 7s ease-in-out infinite; }
+    .rabbit .ear::after { content: ""; position: absolute; inset: 13px 9px; border-radius: inherit; background: var(--rose); opacity: .78; }
+    .rabbit .ear.two { left: 92px; transform: rotate(15deg); animation-name: earRight; }
+    .rabbit .head { position: absolute; left: 24px; top: 54px; width: 145px; height: 112px; background: var(--paper); border-radius: 48% 48% 52% 52%; box-shadow: 0 9px 0 rgba(31, 42, 68, .12); animation: bunnyBreathe 4.4s ease-in-out infinite; }
+    .rabbit .eye { position: absolute; width: 10px; height: 13px; top: 45px; border-radius: 50%; background: var(--ink); transform-origin: center; animation: bunnyBlink 5.2s ease-in-out infinite; }
+    .rabbit .eye.one { left: 42px; } .rabbit .eye.two { right: 42px; }
+    .rabbit .nose { position: absolute; left: 66px; top: 70px; width: 13px; height: 10px; background: var(--rose); border-radius: 50% 50% 45% 45%; }
+    .rabbit .whisker { position: absolute; top: 77px; width: 45px; height: 1px; background: var(--ink); opacity: .4; }
+    .rabbit .whisker.one { left: -25px; transform: rotate(7deg); } .rabbit .whisker.two { right: -25px; transform: rotate(-7deg); }
+    .star { position: absolute; color: var(--rose); font-size: 20px; animation: starTwinkle 2.8s ease-in-out infinite; }
+    .star.s1 { top: 18%; right: 10%; } .star.s2 { left: 8%; top: 39%; color: var(--ink); font-size: 13px; } .star.s3 { right: 18%; bottom: 19%; color: var(--gold); font-size: 28px; }
+    .star.s2 { animation-delay: .8s; } .star.s3 { animation-delay: 1.5s; }
+
+    @keyframes moonFloat {
+      0%, 100% { transform: translateY(0) rotate(0); }
+      50% { transform: translateY(-9px) rotate(.6deg); }
+    }
+    @keyframes bunnyBreathe {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-4px) scale(1.012); }
+    }
+    @keyframes bunnyBlink {
+      0%, 43%, 47%, 100% { transform: scaleY(1); }
+      45% { transform: scaleY(.12); }
+    }
+    @keyframes earLeft {
+      0%, 62%, 100% { transform: rotate(-15deg); }
+      67% { transform: rotate(-22deg); }
+      72% { transform: rotate(-12deg); }
+    }
+    @keyframes earRight {
+      0%, 70%, 100% { transform: rotate(15deg); }
+      75% { transform: rotate(22deg); }
+      80% { transform: rotate(12deg); }
+    }
+    @keyframes noteFloat {
+      0%, 100% { transform: translateY(0) rotate(-7deg); }
+      50% { transform: translateY(-7px) rotate(-5deg); }
+    }
+    @keyframes noteFloatSmall {
+      0%, 100% { transform: translateY(0) rotate(5deg); }
+      50% { transform: translateY(6px) rotate(3deg); }
+    }
+    @keyframes starTwinkle {
+      0%, 100% { opacity: .42; transform: scale(.72) rotate(0); }
+      50% { opacity: 1; transform: scale(1.12) rotate(15deg); }
+    }
+
+    .promise-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; padding: 20px 0 8px; }
+    .promise { padding: 18px 18px 17px; border-top: 2px solid var(--ink); }
+    .promise:nth-child(2) { border-color: var(--rose); } .promise:nth-child(3) { border-color: var(--gold); }
+    .promise strong { display: block; margin-bottom: 5px; font-size: 16px; } .promise p { color: var(--ink-soft); font-size: 13px; margin-bottom: 0; }
+    .disclaimer { display: flex; gap: 10px; align-items: flex-start; margin-top: 30px; padding: 14px 16px; background: rgba(255, 253, 249, .72); border: 1px solid var(--line); border-radius: 12px; color: var(--ink-soft); font-size: 12px; }
+    .disclaimer b { color: var(--ink); white-space: nowrap; }
+
+    .zodiac-showcase { margin: 70px 0 52px; }
+    .showcase-head { display: flex; align-items: end; justify-content: space-between; gap: 22px; margin-bottom: 22px; }
+    .showcase-head h2 { margin: 8px 0 0; font-family: Georgia, "Times New Roman", serif; font-size: clamp(30px, 4vw, 46px); line-height: 1.1; letter-spacing: -.035em; }
+    .showcase-copy { max-width: 460px; margin: 0; color: var(--ink-soft); font-size: 14px; }
+    .slider-tools { display: flex; gap: 8px; flex: 0 0 auto; }
+    .slider-btn { width: 44px; height: 44px; border: 1px solid var(--line); border-radius: 50%; color: var(--ink); background: var(--paper); cursor: pointer; font-size: 20px; line-height: 1; transition: color .2s ease, background .2s ease, transform .2s ease; }
+    .slider-btn:hover { color: var(--paper); background: var(--ink); transform: translateY(-1px); }
+    .zodiac-rail { display: flex; gap: 16px; overflow-x: auto; padding: 4px 2px 18px; scroll-snap-type: x mandatory; overscroll-behavior-inline: contain; scrollbar-width: thin; scrollbar-color: var(--gold) transparent; }
+    .zodiac-rail::-webkit-scrollbar { height: 6px; }
+    .zodiac-rail::-webkit-scrollbar-track { background: transparent; }
+    .zodiac-rail::-webkit-scrollbar-thumb { background: rgba(201, 155, 69, .58); border-radius: 20px; }
+    .zodiac-card { flex: 0 0 clamp(176px, 20vw, 218px); scroll-snap-align: start; padding: 12px 12px 16px; border: 1px solid var(--line); border-radius: var(--radius-md); background: rgba(255, 253, 249, .74); transition: transform .2s ease, box-shadow .2s ease; }
+    .zodiac-card:hover { transform: translateY(-4px); box-shadow: 0 14px 28px rgba(35, 42, 61, .09); }
+    .zodiac-card img { display: block; width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 12px; }
+    .zodiac-meta { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; padding: 13px 3px 0; }
+    .zodiac-meta strong { font-size: 16px; }
+    .zodiac-meta span { color: var(--ink-soft); font-size: 12px; white-space: nowrap; }
+    .swipe-hint { margin: 9px 0 0; color: var(--ink-soft); font-size: 12px; }
+
+    /* Version selection */
+    .version-stage { max-width: 880px; margin: 42px auto 0; text-align: center; }
+    .version-stage h2 { margin: 15px 0 10px; font-family: Georgia, "Times New Roman", serif; font-size: clamp(34px, 5vw, 54px); line-height: 1.12; letter-spacing: -.035em; }
+    .version-stage > p { max-width: 590px; margin: 0 auto; color: var(--ink-soft); font-size: 15px; }
+    .version-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; margin-top: 34px; text-align: left; }
+    .version-card { width: 100%; min-height: 250px; padding: 28px; border: 1px solid var(--line); border-radius: var(--radius-lg); color: var(--ink); background: var(--paper); box-shadow: 0 12px 34px rgba(35, 42, 61, .08); cursor: pointer; text-align: left; display: flex; flex-direction: column; align-items: flex-start; transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease; }
+    .version-card:hover { transform: translateY(-5px); border-color: rgba(231, 111, 99, .58); box-shadow: var(--shadow); }
+    .version-icon { width: 58px; height: 58px; border-radius: 50%; display: grid; place-items: center; margin-bottom: 34px; color: var(--paper); background: var(--ink); font-family: Georgia, "Times New Roman", serif; font-size: 32px; }
+    .version-card[data-version="female"] .version-icon { background: var(--rose); }
+    .version-card strong { font-size: 24px; line-height: 1.2; }
+    .version-card > span:not(.version-icon) { margin-top: 8px; color: var(--ink-soft); font-size: 14px; }
+    .version-card b { margin-top: auto; padding-top: 22px; color: var(--rose-dark); font-size: 13px; }
+    .version-back { margin-top: 24px; }
+    .privacy-note { display: flex; justify-content: center; gap: 8px; margin-top: 19px !important; font-size: 12px !important; }
+
+    /* Quiz */
+    .quiz-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 22px; margin: 12px 0 18px; }
+    .quiz-head h2 { margin: 0; font-size: 30px; letter-spacing: -.03em; }
+    .quiz-count { color: var(--ink-soft); font-size: 14px; white-space: nowrap; }
+    .progress-track { width: 100%; height: 8px; border-radius: 30px; background: #ebe5dc; overflow: hidden; }
+    .progress-bar { height: 100%; width: 0; background: linear-gradient(90deg, var(--rose), var(--gold)); border-radius: inherit; transition: width .3s ease; }
+    .quiz-layout { display: grid; grid-template-columns: minmax(0, 1fr) 270px; gap: 28px; align-items: start; margin-top: 34px; }
+    .question-card { padding: 34px; border-radius: var(--radius-lg); background: var(--paper); box-shadow: var(--shadow); }
+    .question-kicker { color: var(--rose-dark); font-size: 13px; font-weight: 700; letter-spacing: .08em; }
+    .question-card h3 { font-size: clamp(23px, 3vw, 31px); line-height: 1.35; margin: 11px 0 25px; letter-spacing: -.03em; }
+    .options { display: grid; gap: 12px; }
+    .option { position: relative; }
+    .option input { position: absolute; opacity: 0; pointer-events: none; }
+    .option label { display: flex; align-items: flex-start; gap: 13px; padding: 16px 17px; border: 1px solid var(--line); border-radius: 15px; cursor: pointer; background: #fffefa; transition: border-color .2s ease, background .2s ease, transform .2s ease; }
+    .option label:hover { border-color: rgba(231, 111, 99, .6); transform: translateX(2px); }
+    .option input:checked + label { border-color: var(--rose); background: #fff3ef; box-shadow: inset 4px 0 0 var(--rose); }
+    .option input:focus-visible + label { outline: 3px solid var(--sky); outline-offset: 3px; }
+    .option-mark { flex: 0 0 26px; width: 26px; height: 26px; display: grid; place-items: center; border-radius: 50%; color: var(--ink-soft); background: #f2ede6; font-size: 12px; font-weight: 700; }
+    .option input:checked + label .option-mark { color: var(--paper); background: var(--rose); }
+    .option-text { font-size: 15px; line-height: 1.5; }
+    .question-nav { display: flex; justify-content: space-between; align-items: center; gap: 15px; margin-top: 24px; }
+    .question-nav .secondary-btn { min-width: 92px; }
+    .question-nav .primary-btn { min-width: 126px; }
+    .helper { min-height: 21px; margin: 12px 0 0; color: var(--rose-dark); font-size: 13px; }
+    .side-panel { position: sticky; top: 20px; }
+    .side-panel h3 { margin: 0 0 12px; font-size: 16px; }
+    .q-map { display: grid; grid-template-columns: repeat(7, 1fr); gap: 7px; }
+    .q-dot { width: 100%; min-height: 36px; border: 1px solid var(--line); border-radius: 10px; display: grid; place-items: center; color: var(--ink-soft); background: transparent; cursor: pointer; font-size: 12px; }
+    .q-dot.is-current { border-color: var(--ink); color: var(--paper); background: var(--ink); }
+    .q-dot.is-answered { border-color: var(--sage); color: var(--sage); background: rgba(113, 144, 129, .10); }
+    .q-dot.is-current.is-answered { color: var(--paper); background: var(--sage); }
+    .side-note { margin-top: 19px; padding-top: 18px; border-top: 1px solid var(--line); color: var(--ink-soft); font-size: 12px; }
+    .side-note strong { color: var(--ink); display: block; margin-bottom: 5px; }
+
+    /* Result */
+    .result-top { display: grid; grid-template-columns: 1.08fr .92fr; gap: 28px; align-items: stretch; margin-top: 34px; }
+    .result-intro { padding: 34px; border-radius: var(--radius-lg); background: var(--ink); color: var(--paper); position: relative; overflow: hidden; }
+    .result-intro::after { content: attr(data-animal); position: absolute; right: -8px; bottom: -36px; font-family: Georgia, serif; font-size: 210px; line-height: 1; color: rgba(255,255,255,.06); }
+    .result-intro .eyebrow { color: #f3c3aa; } .result-intro .eyebrow::before { background: #f3c3aa; }
+    .result-intro h2 { position: relative; z-index: 1; margin: 16px 0 10px; font-family: Georgia, serif; font-size: clamp(34px, 5vw, 58px); line-height: 1.05; letter-spacing: -.04em; }
+    .result-intro .result-tagline { position: relative; z-index: 1; max-width: 480px; color: #dbe2eb; margin: 0; font-size: 16px; }
+    .result-seal { position: absolute; right: 28px; top: 28px; width: 60px; height: 60px; border: 1px solid rgba(255,255,255,.35); border-radius: 50%; display: grid; place-items: center; color: #f3c3aa; font-family: Georgia, serif; font-size: 25px; transform: rotate(11deg); }
+    .score-card { padding: 30px; border-radius: var(--radius-lg); background: var(--paper); box-shadow: var(--shadow); }
+    .score-card h3 { margin: 0 0 16px; font-size: 19px; }
+    .dimension { margin-top: 17px; }
+    .dimension-row { display: flex; justify-content: space-between; gap: 12px; font-size: 13px; margin-bottom: 7px; }
+    .dimension-row span:last-child { color: var(--ink-soft); }
+    .dimension-track { height: 9px; background: #eee8df; border-radius: 20px; overflow: hidden; }
+    .dimension-fill { height: 100%; width: 0; border-radius: inherit; transition: width .6s ease; }
+    .dim-intimacy { background: var(--rose); } .dim-safety { background: var(--sky); } .dim-repair { background: var(--sage); } .dim-boundary { background: var(--gold); }
+    .result-section { margin-top: 32px; }
+    .section-title { display: flex; align-items: baseline; justify-content: space-between; gap: 20px; border-bottom: 1px solid var(--line); padding-bottom: 12px; margin-bottom: 19px; }
+    .section-title h3 { margin: 0; font-size: 22px; letter-spacing: -.02em; } .section-title p { margin: 0; color: var(--ink-soft); font-size: 13px; }
+    .insight-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    .insight { padding: 21px; border: 1px solid var(--line); border-radius: var(--radius-md); background: rgba(255, 253, 249, .62); }
+    .insight .num { color: var(--rose); font-family: Georgia, serif; font-size: 26px; }
+    .insight h4 { margin: 5px 0 7px; font-size: 16px; } .insight p { color: var(--ink-soft); font-size: 13px; margin-bottom: 0; }
+    .action-list { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; counter-reset: action; }
+    .action { display: grid; grid-template-columns: 33px 1fr; gap: 12px; padding: 19px; background: #f3eee7; border-radius: var(--radius-md); }
+    .action::before { counter-increment: action; content: counter(action, decimal-leading-zero); width: 30px; height: 30px; display: grid; place-items: center; border-radius: 50%; color: var(--paper); background: var(--ink); font-family: Georgia, serif; font-size: 13px; }
+    .action h4 { margin: 0 0 5px; font-size: 15px; } .action p { margin: 0; color: var(--ink-soft); font-size: 13px; }
+    .review-list { display: grid; gap: 11px; }
+    .review { display: grid; grid-template-columns: 35px minmax(0,1fr) auto; align-items: start; gap: 12px; padding: 16px 17px; border: 1px solid var(--line); background: var(--paper); border-radius: 14px; }
+    .review-no { color: var(--rose-dark); font-family: Georgia, serif; font-size: 19px; }
+    .review-question { margin: 0 0 4px; font-weight: 700; font-size: 14px; } .review-answer { margin: 0; color: var(--ink-soft); font-size: 13px; }
+    .review-badge { align-self: center; padding: 4px 9px; border-radius: 8px; font-size: 11px; white-space: nowrap; }
+    .review-badge.ok { color: #3d6d59; background: #e9f1ed; } .review-badge.grow { color: #9a5f25; background: #fff1dc; }
+    .result-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin-top: 36px; }
+    .footer { text-align: center; color: var(--ink-soft); font-size: 12px; padding: 30px 0 0; }
+    .footer a { color: var(--ink); }
+    .toast { position: fixed; left: 50%; bottom: 28px; transform: translate(-50%, 20px); opacity: 0; pointer-events: none; z-index: 10; color: var(--paper); background: var(--ink); padding: 11px 16px; border-radius: 10px; font-size: 13px; transition: opacity .2s ease, transform .2s ease; box-shadow: var(--shadow); }
+    .toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+    /* Modern, readable report and transparent model notes. */
+    .hero h1, .showcase-head h2, .version-stage h2, .result-intro h2 { font-family: inherit; letter-spacing: -.035em; }
+    .result-intro { min-width: 0; display: flex; flex-direction: column; gap: 12px; }
+    .result-intro h2 { font-size: clamp(30px, 4vw, 48px); margin: 0; }
+    .result-intro::after { display: none; }
+    .report-avatar { width: 112px; height: 112px; border-radius: 26px; }
+    .report-meta { color: #dbe2eb; font-size: 13px; margin: 0; }
+    .core-summary { margin: 0; color: var(--ink-soft); }
+    .keyword-list { display: flex; gap: 9px; flex-wrap: wrap; }
+    .keyword { padding: 7px 12px; border-radius: 30px; background: #f5e5df; color: #93443f; font-size: 13px; }
+    .dimension-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+    .dimension { margin: 0; padding: 20px; background: var(--paper); border: 1px solid var(--line); border-radius: 18px; }
+    .dimension-row { font-size: 15px; align-items: center; }
+    .dimension-row strong { font-size: 20px; font-variant-numeric: tabular-nums; }
+    .dimension-fill { background: var(--rose); }
+    .dimension-poles { display: flex; justify-content: space-between; gap: 8px; color: var(--ink-soft); font-size: 12px; margin-top: 7px; }
+    .dimension p { margin: 12px 0 0; color: var(--ink-soft); font-size: 14px; }
+    .report-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin-top: 28px; }
+    .report-block { padding: 24px; border-radius: 20px; background: var(--paper); border: 1px solid var(--line); min-width: 0; }
+    .report-block h3 { font-size: 19px; margin-bottom: 12px; }
+    .report-block p { font-size: 14px; color: var(--ink-soft); margin-bottom: 0; }
+    .report-block p + p { margin-top: 12px; }
+    .report-evidence { margin-top: 18px; padding: 13px 16px; border-left: 3px solid var(--rose); background: #faf1ed; color: var(--ink-soft); font-size: 13px; }
+    .report-evidence p { margin: 0; }
+    .report-evidence p + p { margin-top: 10px; }
+    .model-details { margin-top: 22px; padding: 17px 20px; background: var(--paper); border: 1px solid var(--line); border-radius: 16px; }
+    summary { cursor: pointer; line-height: 1.65; font-weight: 600; }
+    summary:focus-visible { outline: 3px solid var(--sky); outline-offset: 4px; }
+    .model-details > p, .model-details li { font-size: 14px; color: var(--ink-soft); }
+    .model-details > p { margin-top: 16px; }
+    .model-details ol { padding-left: 24px; }
+    .model-details li { margin-top: 8px; }
+    .formula { overflow-wrap: anywhere; padding: 12px; border-radius: 10px; background: #f5f1eb; font-size: 13px; }
+    .model-table-wrap { max-width: 100%; overflow-x: auto; margin-top: 14px; }
+    .model-table { width: 100%; border-collapse: collapse; text-align: left; font-size: 13px; }
+    .model-table th, .model-table td { border-bottom: 1px solid var(--line); padding: 10px; vertical-align: top; }
+    .model-table th { color: var(--ink); }
+    .model-table td { color: var(--ink-soft); }
+    .model-table.prototype-table { min-width: 780px; }
+    .question-audit { margin-top: 12px; padding: 15px; border: 1px solid var(--line); border-radius: 12px; min-width: 0; }
+    .question-audit summary { font-size: 14px; }
+    .question-audit p { margin: 12px 0; font-size: 13px; color: var(--ink-soft); }
+    .audit-options { padding-left: 22px; }
+    .audit-options li { margin: 14px 0; font-size: 13px; }
+    .audit-options span { display: block; margin-top: 5px; color: var(--ink-soft); }
+    .audit-options .is-selected { background: #fcf0ec; border-radius: 10px; padding: 10px; }
+    .audit-selected { color: #9b4540 !important; }
+    .small-note { color: var(--ink-soft); font-size: 13px; margin: 12px 0 0; }
+    .report-stability { background: #f0f4f0; border-radius: 14px; padding: 16px; font-size: 13px; color: #486457; margin-top: 18px; }
+    .quiz-count { white-space: normal; }
+    .side-panel .secondary-btn { width: 100%; font-size: 13px; margin-top: 12px; }
+    .recalculate-btn { width: 100%; margin-top: 14px; }
+    [hidden] { display: none !important; }
+    @media (max-width: 700px) {
+      .dimension-grid, .report-grid { grid-template-columns: 1fr; }
+      .q-map { grid-template-columns: repeat(7, 1fr) !important; }
+      .q-dot { min-height: 40px; }
+      .model-details { padding: 15px 12px; }
+      .report-block { padding: 20px; }
+      .question-audit { padding: 12px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .moon, .art-label, .rabbit .ear, .rabbit .head, .rabbit .eye, .star { animation: none !important; }
+      .primary-btn, .secondary-btn, .slider-btn, .zodiac-card, .progress-bar, .dimension-fill, .toast { transition: none !important; }
+    }
+
+    @media (max-width: 820px) {
+      .hero { grid-template-columns: 1fr; gap: 28px; padding-top: 34px; }
+      .hero-art { min-height: 340px; order: -1; }
+      .moon { width: min(300px, 73vw); }
+      .rabbit { transform: translate(-45%, -38%) scale(.82); }
+      .quiz-layout, .result-top { grid-template-columns: 1fr; }
+      .side-panel { position: static; }
+      .question-card { scroll-margin-top: 18px; }
+      .q-map { grid-template-columns: repeat(14, 1fr); }
+      .q-dot { width: 100%; height: 32px; }
+      .insight-grid, .action-list { grid-template-columns: 1fr; }
+      .showcase-head { align-items: start; }
+      .showcase-copy { display: none; }
+    }
+    @media (max-width: 560px) {
+      .shell, .topbar { width: min(100% - 28px, 1120px); }
+      .topbar { min-height: 66px; } .top-note { display: none; }
+      .view { min-height: calc(100vh - 66px); padding-top: 10px; }
+      .hero { padding: 25px 0 20px; } .hero-art { min-height: 250px; }
+      .moon { width: 220px; } .rabbit { transform: translate(-45%, -37%) scale(.6); }
+      .art-label { top: 8%; left: 0; } .art-label.small { right: -4px; bottom: 8%; }
+      .hero h1 { font-size: clamp(40px, 13vw, 58px); } .hero-intro { font-size: 15px; }
+      .promise-grid { grid-template-columns: 1fr; gap: 5px; padding-top: 8px; }
+      .promise { padding: 14px 0; } .disclaimer { display: block; } .disclaimer b { display: block; margin-bottom: 4px; }
+      .zodiac-showcase { margin: 50px 0 40px; }
+      .showcase-head { margin-bottom: 17px; }
+      .showcase-head h2 { font-size: 31px; }
+      .slider-tools { display: none; }
+      .zodiac-rail { margin-right: -14px; padding-right: 14px; gap: 12px; scrollbar-width: none; }
+      .zodiac-rail::-webkit-scrollbar { display: none; }
+      .zodiac-card { flex-basis: min(68vw, 230px); }
+      .version-stage { margin-top: 20px; }
+      .version-grid { grid-template-columns: 1fr; gap: 12px; margin-top: 25px; }
+      .version-card { min-height: 190px; padding: 22px; }
+      .version-icon { width: 50px; height: 50px; margin-bottom: 24px; font-size: 27px; }
+      .quiz-head { align-items: flex-start; flex-direction: column; gap: 4px; } .quiz-head h2 { font-size: 26px; }
+      .question-card, .result-intro, .score-card { padding: 22px 18px; border-radius: 20px; }
+      .question-card h3 { font-size: 22px; margin-bottom: 20px; } .option label { padding: 14px 13px; }
+      .option-text { font-size: 14px; } .question-nav { margin-top: 17px; gap: 8px; }
+      .question-nav .primary-btn, .question-nav .secondary-btn { min-width: 0; flex: 1; padding: 12px 8px; font-size: 14px; white-space: nowrap; }
+      .result-intro h2 { font-size: 38px; } .result-seal { width: 47px; height: 47px; right: 18px; top: 18px; font-size: 20px; }
+      .section-title { display: block; } .section-title p { margin-top: 5px; }
+      .review { grid-template-columns: 28px minmax(0,1fr); } .review-badge { grid-column: 2; justify-self: start; }
+      .q-map { grid-template-columns: repeat(7, 1fr); gap: 7px; } .q-dot { font-size: 11px; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#" aria-label="返回首页" id="brandHome">
+      <span class="brand-mark" aria-hidden="true">☾</span>
+      <span class="brand-copy"><strong>月下生肖</strong><span>LOVE TEMPERAMENT</span></span>
+    </a>
+    <span class="top-note">把相处方式，翻译成一只生肖</span>
+  </header>
+
+  <main>
+    <section class="view is-active" id="homeView" aria-labelledby="homeTitle">
+      <div class="shell">
+        <div class="hero">
+          <div>
+            <span class="eyebrow">13–14 道关系情境题 · 约 4–5 分钟</span>
+            <h1 id="homeTitle">你的恋爱，<br /><em>像哪只生肖？</em></h1>
+            <p class="hero-intro">用 13–14 个日常瞬间，在十二种生肖气质里看见你的关系本能。结果不是标签，而是一张更懂自己的相处地图。</p>
+            <div class="hero-actions">
+              <button class="primary-btn" id="startBtn" type="button">开始测评 <span aria-hidden="true">→</span></button>
+              <button class="secondary-btn" id="homeInfoBtn" type="button">先看看说明</button>
+            </div>
+            <p class="tiny-hint">无需登录 · 不收集个人信息 · 可随时返回修改</p>
+          </div>
+          <div class="hero-art" aria-label="月亮与兔子插画" role="img">
+            <div class="moon"></div>
+            <div class="rabbit" aria-hidden="true">
+              <span class="ear"></span><span class="ear two"></span>
+              <span class="head"><i class="eye one"></i><i class="eye two"></i><i class="nose"></i><i class="whisker one"></i><i class="whisker two"></i></span>
+            </div>
+            <span class="art-label">今晚，先听听自己</span>
+            <span class="art-label small">温柔不是退让</span>
+            <span class="star s1" aria-hidden="true">✦</span><span class="star s2" aria-hidden="true">✧</span><span class="star s3" aria-hidden="true">✦</span>
+          </div>
+        </div>
+        <section class="zodiac-showcase" aria-labelledby="zodiacTitle">
+          <div class="showcase-head">
+            <div><span class="eyebrow">十二种恋爱本能</span><h2 id="zodiacTitle">先认识月下的十二张脸</h2></div>
+            <p class="showcase-copy">每只生肖对应一种习惯性的靠近方式。左右滑动看看它们，完成测评后，你会遇见最像自己的那一只。</p>
+            <div class="slider-tools" aria-label="生肖类型翻页">
+              <button class="slider-btn" id="zodiacPrev" type="button" aria-label="向前浏览">←</button>
+              <button class="slider-btn" id="zodiacNext" type="button" aria-label="向后浏览">→</button>
+            </div>
+          </div>
+          <div class="zodiac-rail" id="zodiacRail" tabindex="0" aria-label="十二生肖恋爱类型"></div>
+          <p class="swipe-hint">左右滑动，认识十二种靠近彼此的方式</p>
+        </section>
+        <div class="promise-grid" id="infoAnchor">
+          <div class="promise"><strong>具体场景</strong><p>每道题都来自真实相处片段，选最接近你第一反应的答案。</p></div>
+          <div class="promise"><strong>十维画像</strong><p>每个维度由三道情境交叉观察，再与十二生肖恋爱原型匹配。</p></div>
+          <div class="promise"><strong>可执行建议</strong><p>结果会给你三条下周就能尝试的小行动，而不是空泛评价。</p></div>
+        </div>
+        <div class="disclaimer"><b>先说清楚：</b><span>这是原创趣味自评，题目和原型未经心理量表验证，不用于诊断或判断关系成败。生肖只是行为画像的比喻，与出生年份无关。选项没有标准答案，分数高低不代表人格优劣；请按近半年最常见的真实反应选择，没有经历过时选最可能发生的一项。</span></div>
+        <details class="model-details" id="modelDetails">
+          <summary>了解测试逻辑、计分规则与完整题库</summary>
+          <div id="modelOverview"></div>
+        </details>
+      </div>
+    </section>
+
+    <section class="view" id="versionView" aria-labelledby="versionTitle">
+      <div class="shell">
+        <div class="version-stage">
+          <span class="eyebrow">选择答题版本</span>
+          <h2 id="versionTitle">这一次，你想答哪一份？</h2>
+          <p>男生版 13 题，女生版 14 题，各有不同的恋爱情境。两版共用十个维度与匹配规则，选择你想体验的一版。</p>
+          <div class="version-grid">
+            <button class="version-card" id="maleVersionBtn" data-version="male" type="button">
+              <span class="version-icon" aria-hidden="true">♂</span>
+              <strong>男生版</strong>
+              <span>13 道关系情境题 · 约 4 分钟</span>
+              <b>选择男生版 <span aria-hidden="true">→</span></b>
+            </button>
+            <button class="version-card" id="femaleVersionBtn" data-version="female" type="button">
+              <span class="version-icon" aria-hidden="true">♀</span>
+              <strong>女生版</strong>
+              <span>14 道关系情境题 · 约 5 分钟</span>
+              <b>选择女生版 <span aria-hidden="true">→</span></b>
+            </button>
+          </div>
+          <p class="privacy-note">不保存此选择 · 不收集个人信息</p>
+          <button class="secondary-btn version-back" id="versionBackBtn" type="button">← 返回首页</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="view" id="quizView" aria-labelledby="quizTitle">
+      <div class="shell">
+        <div class="quiz-head">
+          <div><span class="eyebrow">月下小测</span><h2 id="quizTitle">选最像你的一刻</h2></div>
+          <div class="quiz-count" id="quizCount">准备开始</div>
+        </div>
+        <div class="progress-track" id="progressTrack" role="progressbar" aria-label="已答题目比例" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="progress-bar" id="progressBar"></div></div>
+        <div class="quiz-layout">
+          <article class="question-card">
+            <div class="question-kicker" id="questionKicker">SCENE 01 · 日常联络</div>
+            <h3 id="questionText"></h3>
+            <div class="options" id="options" role="radiogroup" aria-labelledby="questionText"></div>
+            <div class="question-nav">
+              <button class="secondary-btn" id="prevBtn" type="button">← 上一题</button>
+              <button class="primary-btn" id="nextBtn" type="button">下一题 <span aria-hidden="true">→</span></button>
+            </div>
+            <p class="helper" id="quizHelper" role="alert" aria-live="polite"></p>
+            <button class="primary-btn recalculate-btn" id="recalculateBtn" type="button" hidden>更新我的报告 ↗</button>
+          </article>
+          <aside class="side-panel" aria-label="题目导航">
+            <h3 id="answeredCount">答题进度</h3>
+            <div class="q-map" id="qMap"></div>
+            <p class="side-note"><strong>选实际会做的那一项</strong>回想近半年常见的反应，而不是最理想的自己。没有经历过时，选最可能做的一项。每个选择都有自己的侧重点。</p>
+            <button class="secondary-btn" id="changeVersionBtn" type="button">重新选择版本</button>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section class="view" id="resultView" aria-labelledby="resultHeading">
+      <div class="shell">
+        <div class="quiz-head">
+          <div><span class="eyebrow">你的月下结果</span><h2 id="resultHeading">一张关系相处地图</h2></div>
+          <div class="quiz-count" id="resultCount">基于你的选择</div>
+        </div>
+        <div class="result-top">
+          <article class="result-intro">
+            <span class="eyebrow">01 / 你的生肖恋爱人格</span>
+            <img class="report-avatar" id="resultAvatar" alt="" width="112" height="112">
+            <h2 id="resultType"></h2>
+            <p class="result-tagline" id="resultTagline"></p>
+            <p class="report-meta" id="matchNote"></p>
+          </article>
+          <article class="score-card" aria-live="polite">
+            <h3>02 / 你的核心恋爱特征</h3>
+            <p class="core-summary" id="coreSummary"></p>
+            <div class="report-evidence" id="coreEvidence"></div>
+            <p class="small-note">报告优先描述本次选择。原型代表接近的组合，不要求每一条描述都符合你。</p>
+          </article>
+        </div>
+        <section class="result-section">
+          <div class="section-title"><h3>把恋爱习惯，展开成十个维度</h3><p>0–100 分表示取向，不是优秀程度或人群排名</p></div>
+          <div class="dimension-grid" id="dimensionGrid"></div>
+          <div class="report-stability" id="contextNote"></div>
+        </section>
+        <div class="report-grid" id="reportGrid"></div>
+        <details class="model-details" id="archetypeNotes"></details>
+        <section class="result-section">
+          <div class="section-title"><h3>08 / 给你的恋爱建议</h3><p>针对本次画像，选一条先试一周</p></div>
+          <div class="action-list" id="actionList"></div>
+        </section>
+        <section class="result-section">
+          <div class="section-title"><h3>09 / 你的恋爱关键词</h3><p>从本次维度取向提取</p></div>
+          <div class="keyword-list" id="keywordList"></div>
+        </section>
+        <section class="result-section">
+          <div class="section-title"><h3>逐题回看 · 你的选择如何形成画像</h3><p>展开查看行为解释、所有选项分值与反向计分</p></div>
+          <div class="review-list" id="reviewList"></div>
+          <details class="model-details"><summary>查看本次匹配计算与十二原型距离</summary><div id="matchAudit"></div></details>
+        </section>
+        <div class="result-actions"><button class="secondary-btn" id="editBtn" type="button">← 返回修改答案</button><button class="primary-btn" id="restartBtn" type="button">重新测试 <span aria-hidden="true">↻</span></button></div>
+        <div class="footer">月下生肖 · 原创非专业自评 · 结果仅供自我觉察与沟通参考</div>
+      </div>
+    </section>
+  </main>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+// 原创叙事原型：profile 为人工设计的取向坐标，不是人群常模或诊断阈值。
+// 维度高低表示相处偏好，不代表品德、成熟度或关系质量；报告需结合实际答题解释。
+const archetypes = [
+  {
+    key: 'rat', animal: '鼠', name: '灵察鼠型', colors: ['#dce9e3', '#779884', '#e7a36f'],
+    profile: { initiative: 46, reassurance: 66, boundaries: 66, expression: 44, repair: 68, independence: 70, romance: 44, responsibility: 64, control: 52, commitment: 61 },
+    tagline: '先看懂彼此的节奏，再把喜欢一点点放进去。',
+    traits: ['留意变化', '保留空间', '边看边靠近'],
+    strength: '你可能会发现约会时对方比平时安静，也会记住对方临时改过的安排。需要调整相处方式时，你倾向先收集具体情况，再提出一个能尝试的小办法。',
+    risk: '当回复频率忽然变化，你可能花很多时间比较前后的细节，却还没问清对方发生了什么。分析能帮你整理线索，也可能让一句简单的确认变成很久的猜测。',
+    needs: '你更容易被说话具体、行程有变化会提前说明的伴侣安抚。对方愿意回答你的疑问，同时尊重你已有的朋友和个人安排，会让你更愿意靠近。',
+    communication: '你倾向先想好再开口，喜欢用具体事例说明问题。比起一句“你变了”，说“这周两次取消见面，我想知道你最近怎么了”更能传达你真正关心的事。',
+    conflict: '你可能先回顾发生过什么，再寻找可执行的折中方案；当自己的感受还没整理好时，说出来的容易全是分析。先补上一句“我有点失落”，对方会更容易理解你为什么在意。',
+    security: '可核对的回应、说到做到的小约定，以及不用反复试探就能问清楚的关系，是你可能更看重的安全感来源。',
+    actions: ['下次想反复翻聊天记录时，写下一个事实和一个猜测，再只针对事实向对方提问。', '每周挑一件在意的小事，按“发生了什么—我有什么感受—我希望怎样”说完。', '约定行程变化时发一句简短说明，其余时间继续自己的安排。'],
+    keywords: ['观察细节', '具体回应', '缓步靠近', '自主节奏']
+  },
+  {
+    key: 'ox', animal: '牛', name: '恒温牛型', colors: ['#eadfc7', '#967250', '#cf745c'],
+    profile: { initiative: 42, reassurance: 43, boundaries: 62, expression: 38, repair: 74, independence: 63, romance: 29, responsibility: 87, control: 43, commitment: 90 },
+    tagline: '把喜欢放进日常，让每次约定都有下文。',
+    traits: ['行动回应', '慢慢投入', '愿意长久'],
+    strength: '你可能不常安排盛大的惊喜，却会记得接人、分担共同开支、把答应的事完成。面对反复出现的小问题，你倾向耐心调整，而不是只等情绪过去。',
+    risk: '当你已经做了很多实际的事，可能会觉得心意不必再解释。若伴侣此刻想听的是安慰，直接处理问题可能让你的投入没有被完整接收到。',
+    needs: '你更适合愿意一起承担日常事务、尊重稳定节奏的伴侣。对方能明确说出需要，也看得见你持续的小行动，会比不断要求你证明热情更合拍。',
+    communication: '你倾向围绕一件具体的事讨论怎么做、什么时候做。谈感受时可以保留这种清晰，同时补上行动背后的心意，让照顾被听见。',
+    conflict: '你可能愿意留下来解决问题，但需要一点时间把情绪变成语言。争执后，你更容易通过实际改变修复关系；若能再确认对方是否感到被理解，修复会更完整。',
+    security: '稳定见面的节奏、遇事有人一起承担、承诺经过时间仍然有效，是你可能更信任的关系信号。',
+    actions: ['完成一件照顾对方的事时，补一句“我记得你在意这个，所以做了这件事”。', '每两周留十五分钟，分别说一件需要继续和一件想调整的日常安排。', '挑一个双方都轻松的小仪式固定下来，例如周五散步，不必追求排场。'],
+    keywords: ['持续投入', '实际照顾', '共同生活', '慢热长情']
+  },
+  {
+    key: 'tiger', animal: '虎', name: '直球虎型', colors: ['#f6dfb4', '#d7853e', '#29364f'],
+    profile: { initiative: 88, reassurance: 48, boundaries: 49, expression: 86, repair: 62, independence: 67, romance: 60, responsibility: 67, control: 76, commitment: 60 },
+    tagline: '心动会说出口，想见你就主动约下一次。',
+    traits: ['主动靠近', '表达鲜明', '推进节奏'],
+    strength: '你倾向把喜欢和不满都说得比较直接，也愿意先约见面、先提关系下一步。计划临时出状况时，你可能很快拿出替代办法，让两个人不用一直等。',
+    risk: '当对方还在考虑，你可能已经把时间地点都定好。你的行动速度和表达强度有时会让对方来不及说出自己的偏好，尤其在双方正在生气的时候。',
+    needs: '你更适合能直接回应、敢说不同意见的伴侣。对方愿意一起行动，也能明确告诉你“我需要慢一点”，会让关系有热度又有来回。',
+    communication: '你倾向先说结论和自己的想法，含糊暗示可能让你着急。表达期待后留出安静的几秒，再听完对方的版本，有助于把直率变成双向交流。',
+    conflict: '你可能想当场把争执说清，语气也会跟着情绪变强。对方一时沉默时，你容易继续追问；先约好继续聊的时间，可以减少一个追、一个退的循环。',
+    security: '清楚的态度、及时说出的喜欢、遇到分歧仍愿意回应你，是你可能更在乎的确定感。',
+    actions: ['下一次约会给出两个可选方案，并等对方选完再确定安排。', '争执时先完整复述对方一句话，确认听懂后再表达自己的立场。', '想立刻得到答案时，改问“你希望今晚还是明天继续聊”，约定后暂停追问。'],
+    keywords: ['直接心动', '行动迅速', '鲜明表达', '双向回应']
+  },
+  {
+    key: 'rabbit', animal: '兔', name: '月光兔型', colors: ['#f6dedd', '#f5eee5', '#d76562'],
+    profile: { initiative: 42, reassurance: 77, boundaries: 46, expression: 33, repair: 49, independence: 42, romance: 82, responsibility: 61, control: 34, commitment: 74 },
+    tagline: '一句被记住的话，可能比盛大的告白更让你心动。',
+    traits: ['在意温度', '心意细腻', '含蓄靠近'],
+    strength: '你可能记得对方随口说过的喜好，在纪念日放进只有两个人懂的小细节。伴侣语气变化时，你倾向先留意对方的状态，珍惜相处中被认真对待的感觉。',
+    risk: '当期待落空，你可能先把“没关系”说出口，之后却反复想起这件事。如果一直等对方自己发现，原本很具体的需要可能慢慢变成没有出口的失落。',
+    needs: '你更需要愿意温和回应、认真听小情绪的伴侣。对方能主动说清忙碌的原因，偶尔记得你在意的小仪式，会帮助你不用靠猜来确认爱意。',
+    communication: '你可能更容易在安静的两人时刻，或先用一段文字表达感受。给对方一个明确的小请求，比只改变语气更容易让心意被接住。',
+    conflict: '你倾向先退开整理感受，等语气平静后再说；如果害怕破坏气氛，也可能错过重新开口的时机。暂停时说明“我会回来聊”，能让安静成为缓冲。',
+    security: '日常里有温度的回应、重要日子被记得、委屈能够被认真听完，是你可能更需要的关系确认。',
+    actions: ['把一次“没关系”换成“我有一点失落，想请你今晚陪我聊十分钟”。', '需要安静时说明预计多久，并约一个双方方便的时间重新开口。', '本周为自己安排一次喜欢的活动，让心情也有来自关系之外的支点。'],
+    keywords: ['细节心意', '温柔回应', '情绪共鸣', '慢慢开口']
+  },
+  {
+    key: 'dragon', animal: '龙', name: '领航龙型', colors: ['#d8e7e2', '#497d72', '#d59a49'],
+    profile: { initiative: 82, reassurance: 38, boundaries: 69, expression: 79, repair: 86, independence: 81, romance: 42, responsibility: 85, control: 79, commitment: 86 },
+    tagline: '会认真想两个人的未来，也需要学会一起掌舵。',
+    traits: ['主动规划', '保有自我', '推动落实'],
+    strength: '你可能在换城市、安排旅行或讨论同居时，主动整理选项、时间和预算。你重视自己的发展，也倾向把共同未来变成可执行的步骤，而不只停留在想象。',
+    risk: '当你已经想出完整方案，可能会默认对方只需加入。即使你尊重个人空间，在共同安排上仍可能走得太快，让对方感觉参与的是执行而不是决定。',
+    needs: '你更适合有自己的目标、愿意一起讨论责任分工的伴侣。对方能提出不同方案，也愿意共同落实决定，会让你感到真正有人并肩。',
+    communication: '你倾向清楚说出目标、问题和可行办法。对方情绪低落时，先确认想被倾听还是想找方案，能让你的解决能力用在对方需要的地方。',
+    conflict: '你可能主动把争执拆成几个需要解决的问题，也希望谈完有结论。若情绪还没被理解就进入分工，对方可能觉得谈话很有效率，却没有感到被安慰。',
+    security: '双方对未来有共同方向、各自保有发展空间、遇事愿意一起承担，是你可能更依赖的稳定感。',
+    actions: ['提出共同计划前，先各自写下最在意的一点，再一起比较方案。', '对方诉苦时先问“你想让我听着，还是一起想办法”，按回答继续。', '下一件共同事务由对方先提出安排，你负责补充和落实，不提前给出完整答案。'],
+    keywords: ['共同目标', '独立成长', '计划落地', '并肩决定']
+  },
+  {
+    key: 'snake', animal: '蛇', name: '深流蛇型', colors: ['#dfe3d2', '#6f8062', '#d57a69'],
+    profile: { initiative: 30, reassurance: 49, boundaries: 86, expression: 27, repair: 38, independence: 84, romance: 45, responsibility: 66, control: 39, commitment: 67 },
+    tagline: '靠近需要时间，信任建立后才愿意分享更深的自己。',
+    traits: ['慢热观察', '独处整理', '清晰空间'],
+    strength: '你倾向保留自己的生活节奏，也能理解伴侣有不必事事分享的私人空间。面对情绪波动时，你可能先独自整理，避免在还没想明白时说出太多结论。',
+    risk: '当你把消化情绪的过程全部留给自己，伴侣可能只看到沉默，不知道你需要暂停还是已经疏远。边界很清楚时，愿意分享的一面也需要让对方看见。',
+    needs: '你更适合不催促你交代所有细节、尊重独处时间的伴侣。对方愿意慢慢建立信任，重要的事又能坦诚说清，会让你更愿意开放自己。',
+    communication: '你可能更喜欢一对一、内容明确的交流，临时被要求立刻表态会感到吃力。先告诉对方自己正在想什么、什么时候会回复，可以保留空间也保留连接。',
+    conflict: '你倾向先暂停、拉开一点距离，等想清楚后再谈。暂停本身可能对你有帮助，但如果没有约定返回时间，对方容易把等待理解为不愿处理。',
+    security: '隐私和个人节奏被尊重、彼此不靠追问维持联系、关键问题能够诚实说明，是你可能更珍惜的信任基础。',
+    actions: ['暂停争执时说清“我需要半小时整理，今晚九点回来聊”，并按时出现。', '这周主动分享一件平常只会自己消化的小事，让对方知道如何靠近你。', '一起列出哪些事需要提前沟通、哪些空间可以各自保留，减少靠猜来理解边界。'],
+    keywords: ['慢热信任', '私人空间', '深度交流', '安静整理']
+  },
+  {
+    key: 'horse', animal: '马', name: '逐风马型', colors: ['#e6d9d1', '#9b6049', '#e2a653'],
+    profile: { initiative: 86, reassurance: 26, boundaries: 87, expression: 76, repair: 42, independence: 91, romance: 69, responsibility: 45, control: 27, commitment: 32 },
+    tagline: '喜欢一起出发，也喜欢各自带着新故事回来。',
+    traits: ['热情邀约', '各自精彩', '享受当下'],
+    strength: '你可能很愿意发起临时的小旅行、分享新鲜体验，也不要求伴侣把所有空闲都留给你。你倾向用直接的喜欢和轻盈的相处，让靠近仍然保有选择感。',
+    risk: '当关系开始需要固定安排或长期讨论，你可能觉得压力一下变大。若只说“到时候再看”，伴侣可能不清楚你是在保留灵活度，还是不愿继续投入。',
+    needs: '你更适合有自己生活、能直接说出陪伴需求的伴侣。对方愿意一起探索，也能接受有些周末各自安排，会更贴近你的舒适节奏。',
+    communication: '你倾向想到就说，偏好短而明确的交流。讲清自己愿意承诺的范围，比为了维持轻松先答应、之后再调整更容易让彼此安心。',
+    conflict: '你可能先离开紧绷的气氛，做点别的再回来。换个环境有助于降温，但问题需要有继续聊的时间，避免每次都被下一次开心见面覆盖。',
+    security: '能够自由安排一部分生活、选择靠近而不是被要求黏在一起、说真话也不必担心立刻被束缚，是你可能更需要的安心感。',
+    actions: ['约定一个你能持续做到的见面或联系节奏，同时给各自活动留出时间。', '面对未来计划，把“再说吧”改成“这部分我愿意确定，那部分我还需要时间”。', '冲突后约好具体返回时间，即使出去走走，也回来完成那次对话。'],
+    keywords: ['自由靠近', '热情分享', '新鲜体验', '各自生长']
+  },
+  {
+    key: 'goat', animal: '羊', name: '相伴羊型', colors: ['#e8e4dc', '#a5a39a', '#d7947e'],
+    profile: { initiative: 37, reassurance: 85, boundaries: 29, expression: 62, repair: 73, independence: 29, romance: 57, responsibility: 69, control: 33, commitment: 81 },
+    tagline: '平凡的事有人一起做，也会成为很重要的幸福。',
+    traits: ['珍惜陪伴', '愿意协商', '重视我们'],
+    strength: '你倾向把相处时间放在很重要的位置，愿意陪伴对方处理琐事，也愿意为了共同安排做调整。出现分歧时，你可能很快找到能继续靠近的说法。',
+    risk: '当你担心关系变远，可能先答应对方的安排，再把自己的失落收起来。如果每次都用让步维持气氛，你真正喜欢什么反而不容易被看见。',
+    needs: '你更需要愿意主动留出陪伴时间、邀请你表达偏好的伴侣。对方能在忙碌前说清什么时候再联系，也认真对待你的选择，会让你不必靠迁就确认关系。',
+    communication: '你可能比较愿意讨论彼此怎么才能舒服，但会把对方的需要放在前面。表达关心时同时说出自己的期待，有助于让商量成为双方都有份的选择。',
+    conflict: '你倾向尽快缓和气氛、重新建立连接，也可能在问题还没说完整时就接受折中。修复后再核对一次自己的需要，可以避免同样的委屈积累。',
+    security: '可期待的陪伴、分开时仍有明确回应、自己的偏好被认真询问，是你可能更依赖的安全感来源。',
+    actions: ['下一次商量周末计划时，先说出一个自己真正想做的活动，再听对方的想法。', '约定忙碌日的简单联系方式，例如睡前十分钟语音，让等待有明确边界。', '每周保留一段自己的朋友或兴趣时间，结束后再向对方分享其中一件开心事。'],
+    keywords: ['日常陪伴', '共同节奏', '柔和协商', '需要被选']
+  },
+  {
+    key: 'monkey', animal: '猴', name: '灵感猴型', colors: ['#f0ddbf', '#a66e4b', '#e66f63'],
+    profile: { initiative: 75, reassurance: 38, boundaries: 63, expression: 73, repair: 76, independence: 69, romance: 91, responsibility: 48, control: 43, commitment: 42 },
+    tagline: '爱是不断发现：原来我们还可以这样一起玩。',
+    traits: ['制造惊喜', '互动有趣', '乐于尝试'],
+    strength: '你可能很快想到新的约会点子，善于用故事、玩笑和小惊喜让两个人重新有话聊。旧的相处方法不管用时，你倾向愿意换一种方式试试。',
+    risk: '当问题让气氛变沉重，你可能先用轻松的话把场面带过去。对方如果还停留在难过里，新的活动或玩笑可能让未说完的感受被跳过。',
+    needs: '你更适合愿意回应创意、一起尝试新事物的伴侣。对方也能清楚告诉你哪些事需要认真谈，会让轻松互动和日常经营都有位置。',
+    communication: '你倾向边聊边找灵感，喜欢有来有回的互动。需要谈严肃的事时，先把真正在意的一句话说完，再用幽默缓和，会更容易让对方接住重点。',
+    conflict: '你可能愿意协商，也容易提出好几个新办法。选定一个双方都能做到的方案并持续尝试，比每次想出新点子更能检验问题是否改善。',
+    security: '好奇心被回应、彼此仍愿意分享有趣的发现、关系能调整而不会陷入僵硬套路，是你可能更看重的安心感。',
+    actions: ['下次想用玩笑化解不快时，先说一句认真的感受，再看看对方是否愿意轻松下来。', '把想到的约会点子只选一个，确定日期和需要准备的事，真正一起完成。', '对反复出现的问题选一种方法试一周，再一起说说有效和无效的地方。'],
+    keywords: ['互动火花', '创意约会', '轻松表达', '一起试试']
+  },
+  {
+    key: 'rooster', animal: '鸡', name: '有序鸡型', colors: ['#f3e3bd', '#d39c43', '#cf5d58'],
+    profile: { initiative: 56, reassurance: 72, boundaries: 77, expression: 70, repair: 81, independence: 70, romance: 36, responsibility: 88, control: 82, commitment: 82 },
+    tagline: '把在意的事说清楚，才能放心把日子交给彼此。',
+    traits: ['明确约定', '细节落实', '重视分寸'],
+    strength: '你可能会在出行前确认预算、在共同开支前讨论分担，也愿意把模糊的承诺落实到时间。你倾向认真对待个人边界和共同规则，帮助关系减少不必要的猜测。',
+    risk: '当安排临时改变，你可能很快指出哪里没有按约定执行。反复核对虽然能带来确定感，也可能让对方觉得每件小事都在被检查，需要区分真正的底线和个人偏好。',
+    needs: '你更适合愿意守约、变动时及时说明、能一起商量规则的伴侣。对方有自己的空间，同时也认真对待共同决定，会让你更容易放松。',
+    communication: '你倾向说清具体问题和希望如何调整。提出提醒时先确认对方遇到的实际困难，再讨论下一步，有助于让清晰的要求被理解为合作。',
+    conflict: '你可能想把分歧谈出明确规则，并希望之后能按约定执行。若一次讨论列出太多待改事项，对方可能难以回应；一次聚焦一件事更容易形成可持续的改变。',
+    security: '信息清楚、承诺有后续、私人边界和共同事务都有约定，是你可能更需要的稳定来源。',
+    actions: ['把正在坚持的三条要求分成“底线”和“偏好”，挑一项偏好交给对方安排。', '每次提醒只谈一个具体事件，先问发生了什么，再商量下次怎么做。', '给共同计划留一个可调整的空档，提前约定变动时如何通知，而不要求所有事情固定。'],
+    keywords: ['清楚约定', '可靠执行', '个人边界', '有序经营']
+  },
+  {
+    key: 'dog', animal: '狗', name: '同盟犬型', colors: ['#e5d7c6', '#8b674e', '#6f8a82'],
+    profile: { initiative: 65, reassurance: 80, boundaries: 36, expression: 77, repair: 79, independence: 43, romance: 38, responsibility: 86, control: 58, commitment: 89 },
+    tagline: '遇事先想到我们，也期待对方把你算进同一队。',
+    traits: ['主动支持', '重视回应', '一起承担'],
+    strength: '你倾向在伴侣遇到麻烦时主动出现，愿意腾出时间、分担现实压力，也愿意把困难摊开讨论。对你来说，长久关系可能体现在“有事可以一起面对”。',
+    risk: '当你投入很多却没及时得到回应，可能会把疲惫和不安混在一起。若每次都先接下对方的难题，再期待对方用同样方式回报，你自己的余力可能被忽略。',
+    needs: '你更需要遇事会把你纳入沟通、愿意回应支持的伴侣。对方能明确说出需要什么帮助，也能尊重你暂时做不到的部分，会让付出更有来回。',
+    communication: '你倾向直接确认关系状态，也愿意说清承诺和责任。想帮忙时先问具体需要，能避免把自己的关心方式当成对方唯一需要的方式。',
+    conflict: '你可能主动追着问题找解决办法，不希望带着隔阂分开。若对方需要暂停，先约定再次沟通的时间，再照顾自己的情绪，可以减少反复确认造成的压力。',
+    security: '重要决定会被告知、低谷时有人回应、支持和承诺有来有回，是你可能更珍惜的同盟感。',
+    actions: ['准备替对方处理问题前，先问“你想让我帮哪一部分”，只接下自己能完成的部分。', '把一次反复确认换成具体请求，例如“忙完后告诉我一声，我会安心一些”。', '每周检查一次自己的时间和精力，为已经答应的帮助设定清楚的范围。'],
+    keywords: ['彼此后援', '明确回应', '共同承担', '长久同盟']
+  },
+  {
+    key: 'pig', animal: '猪', name: '慢甜猪型', colors: ['#f5dedd', '#e59b99', '#b95f68'],
+    profile: { initiative: 57, reassurance: 51, boundaries: 39, expression: 57, repair: 43, independence: 45, romance: 72, responsibility: 54, control: 24, commitment: 62 },
+    tagline: '一起吃顿好饭、窝着聊天，也足够让今天值得喜欢。',
+    traits: ['享受陪伴', '表达温暖', '节奏松弛'],
+    strength: '你可能很愿意分享好吃的、好看的和一天里不起眼的小事，常用舒服的相处和小心意表达喜欢。安排有变化时，你倾向保留弹性，不急着要求一切按自己的方式来。',
+    risk: '当相处大体舒服，你可能觉得有些小问题可以以后再谈。若一次次靠开心的见面带过去，共同开支、分工或未来安排的模糊处仍可能累积。',
+    needs: '你更适合愿意分享日常、能享受简单陪伴的伴侣。对方也愿意温和地把重要安排说清楚，会帮助你们在轻松之外保留需要的确定性。',
+    communication: '你倾向在氛围放松时自然地聊，比起正式盘问，更容易接受具体、温和的小请求。把自己的不舒服也说成可调整的小事，会更容易开始对话。',
+    conflict: '你可能先想恢复舒服的气氛，等情绪过去再处理分歧。亲近和安慰对你有帮助，但和好后再确认一项实际调整，才能让同一个问题少出现一次。',
+    security: '能够自在做自己、有日常的亲近和分享、相处不用时刻绷紧，是你可能更看重的关系底色。',
+    actions: ['选一次轻松的饭后时间，聊十五分钟最近一件想调整的小事，并定下一个行动。', '把共同生活中最容易拖延的一项事务写进日历，明确由谁在什么时候完成。', '和好时再补问一句“下次我们各自可以做哪一点不同”，把答案说具体。'],
+    keywords: ['日常小甜', '自在陪伴', '温暖分享', '松弛相处']
+  }
+];
+
+
+// 题目按 0–4 编码；reverse 中的维度实际计分为 4 - scores[维度]。
+// 其余维度实际计分为 scores[维度]。每个版本的每个维度均由三道题共同测量。
+// 分数描述偏好方向，不表示健康程度、道德优劣或专业诊断。
+const questionBanks = {
+  male: [
+    {
+      id: 'M01', scene: '消息停在下午',
+      text: '平时会聊几句的伴侣，今天从午后到晚上都没回复。你知道对方正在赶项目，这时你通常会怎么做？',
+      dimensions: ['reassurance', 'expression'], reverse: [],
+      why: '在已知忙碌的情况下，区分对及时确认的需求，以及不安是直接说出还是留在心里；与临时改约、短期分开时的选择交叉比较。',
+      options: [
+        { text: '先忙自己的事，等对方有空回复，不另外提这段等待。', scores: { reassurance: 0, expression: 1 }, note: '你能暂时把回应需求放到一边。若其实一直在意，事后可以补一句自己的感受。' },
+        { text: '发一句“有点挂念，忙完报个平安就好”，希望今晚得到回应。', scores: { reassurance: 4, expression: 4 }, note: '你会把想要回应的需求直接说清。也可以提前约定忙碌时彼此能做到的联系频率。' },
+        { text: '点开聊天框好几次，但先不再发，想看看对方会不会主动解释。', scores: { reassurance: 3, expression: 0 }, note: '你重视对方主动想起自己，但通常把等待藏起来。对方未必能从安静里读出你的期待。' },
+        { text: '发一条今天的小事，顺便说“等你有空再聊”，不要求马上回复。', scores: { reassurance: 2, expression: 3 }, note: '你会保持轻量联系，又给对方留出时间。若想聊的是重要感受，可以另约一个完整的聊天时段。' }
+      ]
+    },
+    {
+      id: 'M02', scene: '想见面的周末',
+      text: '你和有好感的人已经聊了一阵。周末两人都有空，你刷到一个周日就结束的小型展览，第一步更可能是？',
+      dimensions: ['initiative', 'romance'], reverse: [],
+      why: '同样想见面，有人会主动制造特别体验，有人直接安排日常见面，也有人等待邀请；分别测量推进关系和营造仪式的偏好。',
+      options: [
+        { text: '直接问要不要一起看展，再挑一家有氛围的小店作下一站。', scores: { initiative: 4, romance: 4 }, note: '你常用精心安排的共同体验推动关系。安排前留一点空间，让对方也说说想法。' },
+        { text: '先问周末要不要一起吃顿家常饭，看不看展都可以。', scores: { initiative: 3, romance: 0 }, note: '你愿意主动靠近，更在意见到彼此这件事。偶尔确认对方是否也期待一点特别安排。' },
+        { text: '收藏好展览和附近的漂亮路线，等对方约我时再拿出来。', scores: { initiative: 0, romance: 3 }, note: '你对约会细节有想法，但倾向等一个明确邀请。适当放出一点信号，能减少双方都在等待。' },
+        { text: '把展览链接发过去，说自己有兴趣，看看对方会不会接着约时间。', scores: { initiative: 2, romance: 2 }, note: '你喜欢先抛一个轻松的邀请信号，再看对方回应。若双方都只试探，约会可能停在聊天框里。' }
+      ]
+    },
+    {
+      id: 'M03', scene: '频繁出现的聊天对象',
+      text: '最近几次晚饭，伴侣都在和一位异性朋友聊共同爱好，没有回避屏幕。你最可能先做什么？',
+      dimensions: ['boundaries', 'control'], reverse: [],
+      why: '把对个人社交空间的态度，与是否希望主动规定相处安排分开计分；在共同时间和私人交往之间观察实际选择。',
+      options: [
+        { text: '随口聊聊他们共同的爱好，其他时候由对方自己安排联系。', scores: { boundaries: 4, control: 0 }, note: '你倾向保留各自的社交空间，也较少接管安排。共享时间被打断时，仍然可以提出自己的需要。' },
+        { text: '问问这位朋友的情况，再一起商量吃饭时怎样兼顾聊天。', scores: { boundaries: 3, control: 2 }, note: '你会先了解情况，再协商共同时间的边界。留意商量是否给了双方同样的表达机会。' },
+        { text: '说出自己会在意，希望这类聊天以后少一些。', scores: { boundaries: 0, control: 3 }, note: '你更需要伴侣关系拥有明确的优先位置。具体讨论哪些情境令你不安，会比笼统减少联系更容易回应。' },
+        { text: '提出固定一段只属于两人的晚间时间，想把这项安排明确下来。', scores: { boundaries: 2, control: 4 }, note: '你会通过清楚的安排保护共同时间。先确认这段时间是否也适合对方，能让约定更容易持续。' }
+      ]
+    },
+    {
+      id: 'M04', scene: '出发前的争执',
+      text: '原定一起出游，你临时想换路线，对方觉得自己的准备白做了。两人越说越急，此刻你更常做的是？',
+      dimensions: ['repair', 'responsibility', 'expression'], reverse: [],
+      why: '用同一次分歧观察说感受、讨论修复和落实善后这三个不同动作；短暂停顿不等于逃避，是否约定继续沟通会影响修复分。',
+      options: [
+        { text: '说清自己有些急，提议休息半小时，再一起定路线和各自要补做的事。', scores: { repair: 4, responsibility: 3, expression: 4 }, note: '你倾向把感受和后续安排一起说清。暂停后按约回来，比当场把所有问题谈完更重要。' },
+        { text: '先把需要改的票和路线处理好，等事情顺了再考虑怎么开口。', scores: { repair: 2, responsibility: 4, expression: 1 }, note: '你会先用实际动作承担问题。行动之外补一句对这次争执的理解，能让对方更容易感受到你的用心。' },
+        { text: '先各自待一会儿，暂时不定接下来怎么办，等气氛自然缓下来。', scores: { repair: 0, responsibility: 0, expression: 0 }, note: '你当下更需要退出升温的场面。可以加一个简单的再联系时间，减少双方不知道何时能继续。' },
+        { text: '当场讲清自己为什么想换，也请对方把不满说完，细节等谈完再办。', scores: { repair: 3, responsibility: 2, expression: 3 }, note: '你希望先把彼此的理由讲透。情绪很高时，不妨先确认双方还有没有继续听下去的余力。' }
+      ]
+    },
+    {
+      id: 'M05', scene: '短暂分开的四天',
+      text: '伴侣要出差四天，晚上时间不固定。出发前说好有空再联系，你这几天通常会怎样安排？',
+      dimensions: ['independence', 'reassurance'], reverse: ['reassurance'],
+      why: '通过分开时能否自在生活反向观察回应需求，并区分自主活动与等待联系。本题的安全感原始分表示不依赖即时确认的程度，换算后的需求分为 4 减原始分。',
+      options: [
+        { text: '排好运动和朋友聚会，看到消息再回，几天少聊一点也自在。', scores: { independence: 4, reassurance: 4 }, note: '你容易在暂时分开时保持自己的节奏。偶尔主动分享一件小事，也能让各自忙碌时保持连接。' },
+        { text: '白天照常安排，想约个大致的通话时段，具体时间可以变。', scores: { independence: 2, reassurance: 2 }, note: '你希望拥有自己的安排，也保留一个可期待的连接点。给时间留些弹性，能兼顾两边的现实。' },
+        { text: '晚上尽量不约别的事，等对方空下来，最好每天都能聊一会儿。', scores: { independence: 0, reassurance: 0 }, note: '稳定的陪伴会让你安心，你也愿意为它腾出时间。可以约定联系窗口，避免整晚都悬在等待里。' },
+        { text: '活动照排，但希望出门、到酒店时收到简短消息，免得一直惦记。', scores: { independence: 3, reassurance: 1 }, note: '你能独立安排生活，同时需要几个明确的报平安节点。把需要说具体，比不断猜测更省心。' }
+      ]
+    },
+    {
+      id: 'M06', scene: '另一座城市的机会',
+      text: '伴侣收到去邻城工作一年的机会，坐车约两小时，还没最终决定。你们第一次认真聊这件事时，你更可能？',
+      dimensions: ['commitment', 'control', 'responsibility'], reverse: [],
+      why: '同一件长期变化中，分别记录是否投入未来建设、谁掌握安排，以及是否愿意承担具体执行；不把异地选择本身当作人格结论。',
+      options: [
+        { text: '一起算交通费和见面时间，列出各自能承担的部分，再试着排三个月。', scores: { commitment: 4, control: 2, responsibility: 4 }, note: '你习惯把未来的不确定变成双方能落实的小计划。也留一个复盘日期，计划可以随着现实调整。' },
+        { text: '先让正式消息落定，这阵子照常相处，暂时不排后面的生活。', scores: { commitment: 0, control: 0, responsibility: 0 }, note: '你会等信息更明确再投入安排。这降低了过早规划的负担，但对方可能需要知道你何时愿意再聊。' },
+        { text: '先拟好一套探访和请假方案，告诉对方我可以按这个节奏来。', scores: { commitment: 3, control: 4, responsibility: 3 }, note: '你愿意承担安排，也更习惯先给出明确方案。邀请对方改动几处，能让计划更像共同决定。' },
+        { text: '提议先试一个月，各自承担来回一次，再根据真实体验决定下一步。', scores: { commitment: 1, control: 1, responsibility: 2 }, note: '你偏好通过短期尝试获得信息，再决定投入多深。把试行后的讨论时间约好，能减少悬而未决。' }
+      ]
+    },
+    {
+      id: 'M07', scene: '只有两小时的纪念日',
+      text: '纪念日碰上工作日，你们只有晚上两小时，预算也不多。你更可能实际做哪件事？',
+      dimensions: ['romance', 'initiative'], reverse: ['romance'],
+      why: '在同样有限的时间预算里，区分日常相伴与象征性仪式的偏好，同时记录谁主动推进。本题的浪漫原始分表示日常务实偏好，换算后的仪式偏好分为 4 减原始分。',
+      options: [
+        { text: '主动约去常吃的小馆，踏实吃顿饭、聊聊近况就很够了。', scores: { romance: 4, initiative: 4 }, note: '你愿意主动安排相处，把日常陪伴看得很实在。若对方在意纪念感，可以加一个很小的专属细节。' },
+        { text: '做一张有共同照片的小卡片，再约个简单的散步路线。', scores: { romance: 0, initiative: 3 }, note: '你喜欢用专属细节让普通时间变得特别。先完成一两件小事，比把惊喜做得很复杂更轻松。' },
+        { text: '提一句最近看到的纪念日小点子，期待对方来安排今晚。', scores: { romance: 1, initiative: 1 }, note: '你重视被用心安排的感觉，通常先给一点提示。提示没有被接住时，可以直接说出最想要的那一件事。' },
+        { text: '不额外提计划，照平时见面，路过什么想吃的再一起买。', scores: { romance: 3, initiative: 0 }, note: '你更享受轻松自然的相处，不急着启动特别安排。确认彼此对这一天的期待，能避免无意落差。' }
+      ]
+    },
+    {
+      id: 'M08', scene: '碰在一起的周末邀请',
+      text: '最近几个周末都和伴侣一起过。这周老朋友约你参加难得凑齐的聚会，伴侣也想像往常一样见面，你更常怎么选？',
+      dimensions: ['boundaries', 'independence'], reverse: [],
+      why: '观察当共同时间与个人社交发生真实竞争时的分配；分别记录独立生活的偏好和是否希望双方的生活圈高度重叠。',
+      options: [
+        { text: '这次去朋友聚会，和伴侣另约时间，也支持对方安排自己的周末。', scores: { boundaries: 4, independence: 4 }, note: '你需要关系之外的生活，也愿意给对方同样的空间。提前约好下次相处，能让独立不被误读为疏远。' },
+        { text: '先问能不能带伴侣一起，能融入彼此的圈子会让我更舒服。', scores: { boundaries: 1, independence: 1 }, note: '你喜欢把伴侣带入自己的生活圈，重视共享经历。也允许彼此偶尔有不用一起参加的活动。' },
+        { text: '把周末分成两段，一段见朋友、一段见伴侣，彼此不必都跟着。', scores: { boundaries: 3, independence: 2 }, note: '你倾向兼顾两边，又保留各自活动。别把每个空档排得太满，留点真正休息的时间。' },
+        { text: '这次仍和伴侣一起过，等两人都有兴趣时再参加朋友的活动。', scores: { boundaries: 0, independence: 0 }, note: '你会优先选择共同生活的节奏。偶尔看看关系之外的联系是否也需要一点主动维系。' }
+      ]
+    },
+    {
+      id: 'M09', scene: '漏订的那间房',
+      text: '出游前才发现，你们都以为对方会订酒店，现在只能住更贵的一家。事情已解决，对方提起这次疏漏，你通常会？',
+      dimensions: ['repair', 'responsibility'], reverse: [],
+      why: '在双方都有理解偏差的事务中，区分讨论修复和具体落实；避免用一方是否替另一方承担错误来判断责任感。',
+      options: [
+        { text: '一起讲清当时怎么理解的，再约定下次谁下单、谁核对。', scores: { repair: 4, responsibility: 3 }, note: '你会用对话找出误会，再形成可执行的分工。把流程说简单一些，更容易真的沿用。' },
+        { text: '先建个共享清单，把接下来的预订都补齐，再找时间说这次的感受。', scores: { repair: 2, responsibility: 4 }, note: '你重视马上把事情托住，感受可能排在后面。记得兑现那次后续聊天，避免只修好了流程。' },
+        { text: '觉得损失已经发生，先不复盘，之后看看对方会怎么安排。', scores: { repair: 0, responsibility: 0 }, note: '你倾向先结束这段不愉快，暂时把下一步留给对方。说一句自己是否还介意，能减少误判。' },
+        { text: '说这次双方都没确认好，先各自消化一下，明天再一起列下一次的分工。', scores: { repair: 3, responsibility: 2 }, note: '你需要一些缓冲，也愿意重新合作。明确的回谈时间有助于让暂停保持可预期。' }
+      ]
+    },
+    {
+      id: 'M10', scene: '临时取消的约会',
+      text: '约好周六见面，伴侣周五因工作取消，也暂时说不准下次哪天空。你这次更可能怎么回应？',
+      dimensions: ['reassurance', 'commitment'], reverse: [],
+      why: '把需要一个确定回应与愿不愿建立长期相处习惯分开观察，并与忙碌不回复、短期分开时的行为相互校验。',
+      options: [
+        { text: '希望先确定一个补约日期，即使隔一周，有安排会比较安心。', scores: { reassurance: 4, commitment: 3 }, note: '你需要可预期的再见面时间，也愿意为关系预留位置。可以同时约定忙到无法赴约时怎样更新安排。' },
+        { text: '说没关系，这周各自安排，等下次刚好都有空再碰面。', scores: { reassurance: 0, commitment: 0 }, note: '你对临时变化比较有弹性，更看重当下是否方便。若多次如此，可以确认关系是否仍符合双方期待。' },
+        { text: '这次先体谅忙碌，之后想一起商量一种忙的时候也能维持的见面节奏。', scores: { reassurance: 2, commitment: 4 }, note: '你会把一次变动放进长期相处里考虑。讨论一个最低可行的联系习惯，比追求理想频率更实际。' },
+        { text: '先不再主动约，留意对方这几天会不会主动补上，再决定投入多少。', scores: { reassurance: 3, commitment: 1 }, note: '对方主动补约会给你重要的确认，你也会据此调整投入。观察之外，适当说清自己的期待能减少试探。' }
+      ]
+    },
+    {
+      id: 'M11', scene: '还没说破的关系',
+      text: '你们单独见了三次，也每天聊天。对方发来“和你在一起很开心”，你确实想更进一步，这时更像你的回应是？',
+      dimensions: ['initiative', 'expression'], reverse: [],
+      why: '将关系推进与感受表达区分开：主动安排更多共同活动不一定会直接表白，能说出喜欢也不一定主导关系进程。',
+      options: [
+        { text: '回应自己也很喜欢，并主动约个时间聊聊要不要正式交往。', scores: { initiative: 4, expression: 4 }, note: '你愿意把感受和关系期待一起摆出来。给对方一点思考时间，可以让明确表达更轻松。' },
+        { text: '顺势约下次见面，开始带对方认识自己的朋友，但暂时不说破。', scores: { initiative: 3, expression: 1 }, note: '你用行动把对方带进生活，语言表达相对保留。别默认对方一定能从安排中读懂关系含义。' },
+        { text: '认真说自己也很开心、很在意对方，再等对方提出下一步。', scores: { initiative: 1, expression: 3 }, note: '你能传递感受，但更希望对方先确定方向。若等待太久，也可以轻轻提出一次具体邀请。' },
+        { text: '先回个轻松的表情或玩笑，维持现在的聊天节奏，继续观察。', scores: { initiative: 0, expression: 0 }, note: '你会先保护暧昧关系的轻松感，避免过早暴露期待。适时释放一点清楚的好感，能降低双方猜测。' }
+      ]
+    },
+    {
+      id: 'M12', scene: '纪念日与储蓄计划',
+      text: '你想把纪念日过得特别一点，伴侣却觉得最近应该多存钱。两人都已经有些失落，你下一步更可能是？',
+      dimensions: ['romance', 'commitment', 'repair'], reverse: [],
+      why: '在浪漫期待与长期投入发生冲突时，观察仪式偏好、建设取向和修复方式；不把消费金额等同于浪漫或责任。',
+      options: [
+        { text: '先做一个不花多少钱的小惊喜，让气氛轻松下来，未来的预算之后再说。', scores: { romance: 4, commitment: 0, repair: 2 }, note: '你会先用情绪连接缓解僵持。气氛好转后再补谈实际分歧，能让惊喜不必承担所有修复工作。' },
+        { text: '提议以后保留一个简单的周年仪式，再一起定这次和储蓄各留多少预算。', scores: { romance: 3, commitment: 4, repair: 4 }, note: '你想保留仪式，也愿意把它放进共同生活规划。先问双方最不能省掉的是什么，会更容易达成安排。' },
+        { text: '按日常方式吃饭就好，把钱留着完成已经说好的储蓄目标，暂时不多聊。', scores: { romance: 0, commitment: 3, repair: 1 }, note: '你此刻愿意优先落实稳定的共同目标。若仍有失落，可以在平静时说出来，避免表面同意后累积委屈。' },
+        { text: '先各自过完这个周末，等那股失落过去，看看之后还想不想补过。', scores: { romance: 2, commitment: 1, repair: 0 }, note: '你倾向等情绪自己落下，再决定下一步。一个简短的回谈约定，会让暂停更少留下悬念。' }
+      ]
+    },
+    {
+      id: 'M13', scene: '周末该怎样留白',
+      text: '伴侣希望以后周末多一起行动，你却也有固定运动和独处习惯。第一次讨论接下来一个月的周末时，你更倾向？',
+      dimensions: ['independence', 'boundaries', 'control'], reverse: [],
+      why: '同时记录自主生活、共享边界和安排主导权；特意允许“重视各自空间但想自己定时间”的组合，避免把独立简单等同于低控制。',
+      options: [
+        { text: '先定下我认为合适的见面时段，其他时间各过各的，尽量按这个节奏走。', scores: { independence: 4, boundaries: 4, control: 4 }, note: '你很需要自己的节奏，也倾向先把框架定好。给对方真实的调整空间，能让边界更容易被接受。' },
+        { text: '愿意把大部分周末留给两个人，具体怎么过让对方安排。', scores: { independence: 0, boundaries: 1, control: 0 }, note: '你享受共同生活，也乐意顺着对方的安排。偶尔主动说一个自己的偏好，能让对方更了解你。' },
+        { text: '尽量把运动和休闲都安排成两人一起做，由我来整合两人的日程。', scores: { independence: 1, boundaries: 0, control: 3 }, note: '你喜欢共享生活，并愿意组织共同节奏。确认对方是否也想参加每一项，能保留相处的新鲜感。' },
+        { text: '各自保留半天或一天，再轮流提议共同活动，临时有事可以商量调整。', scores: { independence: 3, boundaries: 3, control: 1 }, note: '你希望个人生活和共同时间都能存在，安排上较有弹性。把真正重要的约定单独说清，可减少临时变化的落差。' }
+      ]
+    }
+  ],
+  female: [
+    {
+      id: 'F01', scene: '最近安静的两次见面',
+      text: '伴侣最近两次见面都比平时话少，还提早回家，说只是有点累。你回到家后更常做什么？',
+      dimensions: ['reassurance', 'expression'], reverse: [],
+      why: '在原因尚不明确的冷淡信号中，区分需要多少关系确认，以及是否愿意直接说明自己的感受；不直接询问“敏不敏感”。',
+      options: [
+        { text: '直接说自己感觉最近有些距离，问是需要休息，还是我们有什么想聊的。', scores: { reassurance: 3, expression: 4 }, note: '你会把察觉到的变化说出来，想得到清楚的信息。先描述具体变化，能比替对方解释原因更容易展开交流。' },
+        { text: '先按对方说的理解，照常安排自己的事，不专门提这件事。', scores: { reassurance: 0, expression: 1 }, note: '你能给短期状态变化一些空间。若变化持续，再选一个合适时机确认，也不必一直独自消化。' },
+        { text: '反复回想这两次见面的细节，暂时少发消息，看看对方会不会来找我。', scores: { reassurance: 4, expression: 0 }, note: '你很在意关系有没有变化，但通常先通过观察寻找确认。说出一个小问题，有时比反复回想更能获得信息。' },
+        { text: '发一句“今天有点想你，也有点失落”，说完自己的感受，先不追问原因。', scores: { reassurance: 1, expression: 3 }, note: '你愿意表达感受，同时能给对方回应的余地。若之后仍有困惑，可以再提出一个具体问题。' }
+      ]
+    },
+    {
+      id: 'F02', scene: '下班路上的花市',
+      text: '你们一周没见，刚好看到伴侣公司附近今晚有花市，自己也有空。你最可能采取的第一步是？',
+      dimensions: ['initiative', 'romance'], reverse: [],
+      why: '从能立即落实的约会机会测量主动靠近和仪式偏好；日常见面、特别体验与等待安排分别编码，避免把主动等同于浪漫。',
+      options: [
+        { text: '把花市信息存下来，等对方主动约时再说，希望这次有点特别。', scores: { initiative: 0, romance: 3 }, note: '你期待被主动邀请，也会提前留意有氛围的去处。分享一点明确的期待，有助于对方接住你的想法。' },
+        { text: '直接问要不要一起逛，再各挑一小束花送给对方。', scores: { initiative: 4, romance: 4 }, note: '你会主动创造有纪念感的小体验。给对方留一个简单替代方案，忙碌时也能轻松答应。' },
+        { text: '问要不要下班后一起吃面，能见到面就行，花市可去可不去。', scores: { initiative: 3, romance: 0 }, note: '你愿意主动见面，更看重真实相处。偶尔问问对方有没有想一起体验的小事，会增加共同回忆。' },
+        { text: '聊天时提一句自己今晚有空，看看对方会不会接着安排见面。', scores: { initiative: 1, romance: 1 }, note: '你喜欢给一个轻量信号，等对方推进。若对方没有接到暗示，可以把“有空”补成一个具体邀请。' }
+      ]
+    },
+    {
+      id: 'F03', scene: '新认识的运动搭档',
+      text: '你从运动合照里发现，伴侣最近每周会和同一位异性朋友搭档训练，对方也正常向你介绍了这个人。你通常先怎么回应？',
+      dimensions: ['boundaries', 'control'], reverse: [],
+      why: '通过伴侣固定社交观察独立社交边界，再区分是开放安排、共同协商，还是希望自己掌握相处规则。',
+      options: [
+        { text: '想先把训练与两人见面的时间排清楚，希望固定下来不要常变。', scores: { boundaries: 2, control: 4 }, note: '你会通过明确日程获得可预期感。安排前确认彼此的现实限制，可以减少“已经替对方决定了”的感觉。' },
+        { text: '觉得有固定搭档很方便，聊聊训练成果，联系频率由对方自己决定。', scores: { boundaries: 4, control: 0 }, note: '你倾向允许彼此拥有独立社交与爱好。若出现具体让你不舒服的行为，也可以单独讨论。' },
+        { text: '好奇两人怎么认识，再聊聊彼此对运动搭档和单独相处有哪些习惯。', scores: { boundaries: 3, control: 2 }, note: '你愿意先理解情境，再一起确定边界。尽量把约定说成双方都适用的规则。' },
+        { text: '会说自己更希望这种固定搭档是同性朋友，或者由我一起参加。', scores: { boundaries: 0, control: 3 }, note: '你更在意伴侣关系的专属感，希望社交方式能照顾这份需要。也可以具体说明是哪种互动让你不安。' }
+      ]
+    },
+    {
+      id: 'F04', scene: '晚饭后的水槽',
+      text: '周末一起做饭，吃完后你们都以为另一人会收拾。厨房一直没动，两人都觉得自己已经做得不少，语气开始变冲。你更常会？',
+      dimensions: ['repair', 'responsibility', 'expression'], reverse: [],
+      why: '从可重复的生活分工中，同时观察情绪是否说出、是否讨论修复以及是否落实事务；强调做事与沟通是不同维度。',
+      options: [
+        { text: '先把厨房收好，暂时不解释自己的不快，等情绪过去再看要不要说。', scores: { repair: 1, responsibility: 4, expression: 0 }, note: '你会先把实际事情做完，但自己的感受容易被隐藏。事情结束后补一句具体需要，能减少下次重演。' },
+        { text: '说清自己为什么委屈，听听对方做了什么，再当场分好剩下的活。', scores: { repair: 4, responsibility: 3, expression: 4 }, note: '你倾向把感受与分工一起处理。先让双方都完整说完一句话，再进入方案会更有效。' },
+        { text: '说自己想静一静，先离开厨房，今晚暂时不决定谁收拾。', scores: { repair: 0, responsibility: 0, expression: 1 }, note: '你需要先退出冲突，才能恢复余力。给出一个回来处理的时间，会让暂停更少变成僵持。' },
+        { text: '先休息片刻，再发一个简单分工：“我洗碗，你擦台面，下次交换？”', scores: { repair: 3, responsibility: 4, expression: 2 }, note: '你更习惯用具体方案重新合作。方案之外，简单讲讲为什么在意分工，也有助于被理解。' }
+      ]
+    },
+    {
+      id: 'F05', scene: '多出来的一张音乐节票',
+      text: '原本约好一起去音乐节，伴侣临时有事去不了，票也不能退。朋友愿意和你去，距离开场还有一天，你通常会选？',
+      dimensions: ['independence', 'reassurance'], reverse: ['independence'],
+      why: '在原有陪伴落空后，观察是否仍能保留自己的体验，以及是否需要额外回应。本题的独立性原始分表示对共同活动的依赖，换算后的自主生活分为 4 减原始分。',
+      options: [
+        { text: '和朋友照常去，回来再分享见闻，不需要伴侣在现场时一直联系。', scores: { independence: 0, reassurance: 0 }, note: '你能把自己的体验继续下去，也能接受短时各忙各的。事后分享喜欢的瞬间，有助于保持连接。' },
+        { text: '不太想去了，更想腾出时间等伴侣忙完，确认还能不能见一面。', scores: { independence: 4, reassurance: 4 }, note: '和伴侣在一起是这次体验的重要部分，确认下一次见面会让你安心。也给自己的失落留一点被表达的空间。' },
+        { text: '还是去，但会提前说希望对方忙完发条消息，免得整场都惦记。', scores: { independence: 2, reassurance: 3 }, note: '你能继续安排活动，同时需要一个明确的回应节点。提前说好“忙完联系”通常比边等边猜更轻松。' },
+        { text: '把票转给朋友，自己另做安排；这类活动我更想留到两个人一起体验。', scores: { independence: 3, reassurance: 1 }, note: '你更珍惜共同体验，但不一定需要频繁确认。也可以区分哪些活动必须一起，哪些自己去同样值得。' }
+      ]
+    },
+    {
+      id: 'F06', scene: '一年后的旅行基金',
+      text: '伴侣提议从这个月开始，为一年后的一次长途旅行存钱，目的地还没定。第一次商量时，你更可能怎么做？',
+      dimensions: ['commitment', 'control'], reverse: [],
+      why: '用有成本的未来计划观察长期投入，而非只问是否想长久；同时区分愿意共同建设和是否希望主导节奏。',
+      options: [
+        { text: '愿意开始，先一起看收入和假期，金额与目的地慢慢协商。', scores: { commitment: 4, control: 1 }, note: '你愿意把关系放进未来计划，也希望安排由双方形成。定一个小而明确的第一步，可以避免一直停在想法里。' },
+        { text: '先不设一年的计划，等真的想出发、时间也合适时再安排。', scores: { commitment: 0, control: 0 }, note: '你更喜欢保留当下的灵活性，避免太早锁定未来。可以让对方知道这是规划偏好，还是目前还想观察关系。' },
+        { text: '先列好目标金额、每月数额和出发日期，希望两人按这套节奏准备。', scores: { commitment: 4, control: 4 }, note: '你对共同未来有投入意愿，也善于给出明确框架。让对方参与修改，会增加计划的共同感。' },
+        { text: '想先由我定一个试存一个月的小目标，做得到再考虑是否继续。', scores: { commitment: 1, control: 3 }, note: '你会先用自己可把握的小范围尝试来判断。试行后主动交流体验，有助于让短期安排自然衔接下一步。' }
+      ]
+    },
+    {
+      id: 'F07', scene: '项目终于结束了',
+      text: '伴侣忙了很久的项目终于结束，今晚你们会见面。你真心替对方高兴，通常会怎样表达？',
+      dimensions: ['romance', 'initiative'], reverse: ['romance'],
+      why: '从庆祝他人的具体方式观察主动程度和象征性表达；本题的浪漫原始分表示日常支持偏好，换算后的仪式偏好分为 4 减原始分。',
+      options: [
+        { text: '提前准备一块小蛋糕和一句手写祝福，见面时给个惊喜。', scores: { romance: 0, initiative: 4 }, note: '你会主动用小仪式为重要时刻留下记忆。考虑对方当天的精力，让惊喜保持轻松就很好。' },
+        { text: '主动点好对方常吃的晚饭，让今晚少一点操心、多一点休息。', scores: { romance: 3, initiative: 3 }, note: '你善于用具体照顾传递在意。偶尔把“我替你开心”直接说出来，会让行动的含义更清楚。' },
+        { text: '直接问今晚最想放松还是聊工作，按对方的需要配合，不额外准备。', scores: { romance: 4, initiative: 2 }, note: '你倾向先了解当下需要，再给予实际陪伴。对方若没有想法，你也可以给一个简单建议。' },
+        { text: '发首适合庆祝的歌，说这件事值得纪念，等对方提议怎么过今晚。', scores: { romance: 1, initiative: 0 }, note: '你重视情绪与纪念感，但更喜欢由对方启动安排。想法特别明确时，也可以主动补一个小计划。' }
+      ]
+    },
+    {
+      id: 'F08', scene: '要不要一起加入兴趣圈',
+      text: '你原本每周会参加一次固定兴趣活动。伴侣最近提出以后也想常常一起去，你的第一反应更接近？',
+      dimensions: ['boundaries', 'independence'], reverse: [],
+      why: '观察是否希望保留属于自己的活动空间，以及独立生活的优先程度；不把愿意共享爱好自动解释成缺乏能力。',
+      options: [
+        { text: '挺开心的，希望以后大多一起参加，再慢慢把彼此的朋友也熟悉起来。', scores: { boundaries: 0, independence: 0 }, note: '你喜欢生活圈逐渐融合，共享活动能带来亲近感。也允许对方或自己偶尔单独参加。' },
+        { text: '偶尔一起来很好，但仍想保留固定几次自己参加，彼此都有各自的圈子。', scores: { boundaries: 4, independence: 4 }, note: '你希望亲密关系之外仍有稳定的个人空间。说明这段空间对你的意义，比只拒绝加入更容易被理解。' },
+        { text: '可以约着参加感兴趣的那几次，其他时候各自安排，临时决定也可以。', scores: { boundaries: 3, independence: 3 }, note: '你喜欢共享与独立之间留有弹性。重要活动提前确认，会比每次临时猜测彼此意愿更轻松。' },
+        { text: '很想多一起行动，不过更愿意另找两人都喜欢的新活动，这个圈子偶尔再带对方来。', scores: { boundaries: 2, independence: 1 }, note: '你偏好共同生活，同时保留一点原有圈子的边界。挑选共同活动时，确认双方都真正有兴趣。' }
+      ]
+    },
+    {
+      id: 'F09', scene: '玩笑之后的道歉',
+      text: '聚会时伴侣拿你的一件糗事开玩笑，让你有点难堪。回家后对方认真道歉，说没想到你会介意。接下来你更可能怎么做？',
+      dimensions: ['repair', 'responsibility'], reverse: [],
+      why: '在收到道歉后，观察是先降温、谈清影响还是落实后续相处约定；责任承担在此指愿意参与共同规则的跟进，不指替伴侣的失误负责。',
+      options: [
+        { text: '先写出自己不想被公开的几件事，提议下次聚会前一起核对，心情稍后再聊。', scores: { repair: 2, responsibility: 4 }, note: '你重视把这次经历落实成后续约定。规则之外，也给自己留一点解释难堪感受的时间。' },
+        { text: '把当时难堪的感受说清，听完对方的想法，再一起定一个现场提醒的暗号。', scores: { repair: 4, responsibility: 3 }, note: '你更希望道歉接上理解与新的相处办法。约定提醒方式，不意味着你要承担对方再次越界的责任。' },
+        { text: '说自己还需要缓缓，约好明晚再聊哪些内容能说、哪些希望保留。', scores: { repair: 3, responsibility: 2 }, note: '你需要一些时间，也愿意回到这个话题。按约再谈能让暂停保持清楚的边界。' },
+        { text: '先不谈了，自己做点别的，之后看对方会不会主动改变再决定是否翻篇。', scores: { repair: 0, responsibility: 0 }, note: '你更想先退出难受的气氛，暂不参加后续协商。这里的低分仅表示本次较少主动跟进，不等于你应为对方的玩笑负责。' }
+      ]
+    },
+    {
+      id: 'F10', scene: '还没走进彼此的生活圈',
+      text: '交往已有一阵，平时相处正常。你提到一起见朋友，伴侣说“再稳定些吧”，没有说具体什么时候。你之后更可能？',
+      dimensions: ['reassurance', 'commitment'], reverse: [],
+      why: '通过关系公开与未来节奏的模糊处，区分即时确认需求和长期融入的意愿；与冷淡信号、计划落空时的行为交叉观察。',
+      options: [
+        { text: '想问清“稳定些”具体指什么，也希望约一个之后再谈的时间。', scores: { reassurance: 4, commitment: 3 }, note: '你需要关系进展有可理解的含义和时间。具体讨论下一小步，比一次确定全部未来更容易做到。' },
+        { text: '暂时不急着进入朋友圈，现在两个人相处开心，就顺其自然。', scores: { reassurance: 0, commitment: 0 }, note: '你更看重目前的相处，不急着通过外部安排确认关系。若之后期待改变，可以再明确提出来。' },
+        { text: '可以慢慢来，但想商量先做哪些小事，让彼此逐步融入日常生活。', scores: { reassurance: 2, commitment: 4 }, note: '你愿意持续建设关系，也能接受渐进的节奏。选择一个双方都舒服的小行动，会比抽象地等待稳定更明确。' },
+        { text: '先不再提，观察对方接下来会不会主动带我进入生活圈，再调整自己的投入。', scores: { reassurance: 3, commitment: 1 }, note: '对方主动把你带入生活会让你得到重要确认。观察一段时间后说说发现，能减少长期试探。' }
+      ]
+    },
+    {
+      id: 'F11', scene: '总在重复的约会路线',
+      text: '最近几次约会都围绕伴侣的爱好展开，你也配合了，但开始觉得自己的兴趣很少被看见。下次约会前，你更可能？',
+      dimensions: ['initiative', 'expression'], reverse: [],
+      why: '观察是否主动改变相处模式，以及会不会直接表达被忽略的感受；安排活动的主动性与语言上的坦率分别计分。',
+      options: [
+        { text: '提出一个自己想去的具体地方，说明这次想换个节奏，并主动约时间。', scores: { initiative: 4, expression: 3 }, note: '你会用明确提案为自己的需要创造位置。安排前也听听对方是否方便，能让推进更有共同感。' },
+        { text: '直接说自己有点被忽略，希望下次由对方挑一个我也喜欢的活动。', scores: { initiative: 1, expression: 4 }, note: '你能坦率说出感受，也期待对方用行动回应。给出一两个兴趣线索，会更容易得到合适的安排。' },
+        { text: '先按原来的方式见面，不特别说，看看对方之后会不会注意到。', scores: { initiative: 0, expression: 0 }, note: '你倾向保留现有相处节奏，暂时隐藏落差。对方可能只看见你的配合，适时表达能减少误会。' },
+        { text: '发两个自己感兴趣的活动，提议以后轮流选，不先谈这几次的失落。', scores: { initiative: 3, expression: 2 }, note: '你会用规则和具体选项推动改变，感受表达比较含蓄。若仍觉得没被理解，可以再补一句自己的体验。' }
+      ]
+    },
+    {
+      id: 'F12', scene: '有限的跨年预算',
+      text: '跨年前，你们约好只用一笔小预算庆祝。可以安排特别体验，也可以留作以后两人的共同用途，你真正更想怎么花？',
+      dimensions: ['romance', 'commitment'], reverse: [],
+      why: '通过有限资源的真实取舍，区分对当下特别体验和长期共同积累的偏好；低消费的纪念仪式也可获得较高浪漫分。',
+      options: [
+        { text: '就近吃顿喜欢的饭，剩下的各自留着，暂时不为以后安排太多。', scores: { romance: 1, commitment: 1 }, note: '你喜欢轻松的当下体验，也想保留后续选择。若对方期待共同目标，可以先从一件小事聊起。' },
+        { text: '选一场难得的演出或临时短途出游，把这次开心过足，之后再做打算。', scores: { romance: 4, commitment: 0 }, note: '你重视新鲜而浓烈的共同回忆。享受当下之外，偶尔确认彼此对未来的想法是否接近。' },
+        { text: '不必特意庆祝，优先留给已经讨论过的共同旅行或生活用品。', scores: { romance: 0, commitment: 4 }, note: '你更愿意把资源放进可持续的共同生活。保留一个不费钱的小纪念，也能照顾仪式感不同的伴侣。' },
+        { text: '拍张合照、写封给明年的信，剩下存进两人共同的小目标里。', scores: { romance: 3, commitment: 3 }, note: '你喜欢把纪念感和未来期待连在一起。共同目标不必宏大，双方愿意持续参与更重要。' }
+      ]
+    },
+    {
+      id: 'F13', scene: '两个月的周末课程',
+      text: '你报名了持续两个月的周末课程，伴侣担心见面会少很多。开始排日程时，你最可能提出哪种安排？',
+      dimensions: ['independence', 'boundaries', 'control'], reverse: [],
+      why: '通过个人投入与共同时间的冲突，测量自主生活、空间边界和主导安排；三项分别评分，允许独立与主导同时较高。',
+      options: [
+        { text: '课程照上，由我先划定能见面的时段，其余时间双方各自安排。', scores: { independence: 4, boundaries: 4, control: 3 }, note: '你会保护自己的投入，也习惯先给出时间框架。让对方参与选择可用时段，会让安排更容易兼顾两边。' },
+        { text: '想把上课、吃饭和休息都设计成两人一起行动，由我把这两个月排好。', scores: { independence: 1, boundaries: 1, control: 4 }, note: '你倾向把个人计划和共同生活整合，也愿意承担安排。先确认对方对这些活动的真实兴趣。' },
+        { text: '更想维持原来的陪伴频率，愿意根据对方想见面的时间调整或少上几次课。', scores: { independence: 0, boundaries: 0, control: 0 }, note: '你会优先让共同生活保持连续，也较愿意顺应对方。留意调整后自己是否仍然满意，避免默默牺牲后失落。' },
+        { text: '一起选一个固定见面时段，其他空闲各自安排，有需要时轮流调整。', scores: { independence: 3, boundaries: 3, control: 1 }, note: '你希望稳定连接与个人成长同时存在，安排上愿意协商。约定临时变化怎么通知，会让弹性更好用。' }
+      ]
+    },
+    {
+      id: 'F14', scene: '说早了的工作消息',
+      text: '你聊天时无意提到伴侣还没公开的换工作计划，对方得知后很不舒服。你原先没想到这是秘密，这时通常会先怎么做？',
+      dimensions: ['repair', 'responsibility'], reverse: [],
+      why: '用自己造成的真实影响交叉观察修复与承担；区分解释本意、理解影响和实际补救，不因某个单题选项就给人贴责任标签。',
+      options: [
+        { text: '先说明自己不是故意的，如果对方仍很生气，就暂时停下，等对方愿意再说。', scores: { repair: 0, responsibility: 0 }, note: '你会先澄清本意，再退出高压对话。平静后回来确认造成了什么影响，能避免停在互相辩解。' },
+        { text: '先悄悄联系听到消息的朋友，请对方别再传开，做完补救再想怎么解释。', scores: { repair: 1, responsibility: 4 }, note: '你会立即采取行动减少影响，但对话容易延后。补救前后都简单告知伴侣，可以减少新的信息落差。' },
+        { text: '先听对方在意哪里，承认这次造成了困扰，再一起确认要补救什么、以后怎么问。', scores: { repair: 4, responsibility: 4 }, note: '你倾向同时理解影响和落实补救。先确认对方想要哪种补救，能避免热心处理却扩大消息范围。' },
+        { text: '先道歉并让对方把不满说完，约好晚一点再商量需不需要联系朋友。', scores: { repair: 3, responsibility: 2 }, note: '你会先恢复能够对话的状态，再处理事务。把后续商量真正接上，能让道歉更有落点。' }
+      ]
+    }
+  ]
+};
+
+
+// Every dimension is descriptive. No overall good/bad relationship score is computed.
+const dimensions = [
+  { key: 'initiative', label: '主动性', low: '等待信号', high: '主动推进', words: ['慢慢靠近', '双向试探', '主动靠近'],
+    readings: ['你往往先观察对方的回应，确认被欢迎之后再推进关系。', '你会主动，但通常也想看到对方迈出相近的一步。', '想见面或推进关系时，你更可能先发出邀请、提出下一步。'],
+    advice: ['下次想见面时发出一个具体邀约，再把选择权留给对方。', '把你想推进的一小步说清楚，约好由谁来安排。', '提出下一步后留出回应时间，问一句“这个节奏对你舒服吗？”'] },
+  { key: 'reassurance', label: '安全感需求', low: '容纳不确定', high: '需要稳定回应', words: ['松弛等待', '适度确认', '回应很重要'],
+    readings: ['联系短暂减少时，你较容易继续自己的安排，不急于获得解释。', '你需要基本的回应和交代，也能接受忙碌造成的暂时空白。', '回复延迟或计划变动容易占用你的注意力，明确的回应会让你更安定。'],
+    advice: ['即使自己不着急，也问问对方希望多久收到一次近况。', '一起约定忙碌时的简单报平安方式，减少各自猜测。', '把“你怎么不回”换成具体约定，比如忙完发一句、晚上再聊。'] },
+  { key: 'boundaries', label: '空间边界', low: '偏好紧密共享', high: '保留各自空间', words: ['紧密同行', '协商边界', '空间有边界'],
+    readings: ['你更喜欢共享社交和生活细节，排他感可能是亲密的重要部分。', '你能接受各自的空间，涉及敏感场景时希望先谈清边界。', '你倾向保留彼此的社交、隐私与选择权，不把亲密等同于完全共享。'],
+    advice: ['把想知道的内容与必须交出的隐私分开，先征询对方是否愿意分享。', '挑一个具体社交场景，分别说出舒服、不舒服和可以协商的部分。', '说明哪些空间对你重要，同时约定你愿意主动分享的近况。'] },
+  { key: 'expression', label: '情绪表达', low: '先内化整理', high: '直接说出来', words: ['先消化感受', '择时表达', '感受说出口'],
+    readings: ['你常先把情绪放在心里整理，可能通过语气、距离或行动传达。', '你会根据气氛选择时机，有时先整理，有时当场说开。', '在意或委屈时，你更倾向让对方直接听见自己的感受。'],
+    advice: ['需要安静时给一句时间提示：“我先整理一下，今晚再聊。”', '选一句还没说出口的感受，用“发生了什么—我感到什么”表达。', '说完自己的感受后复述对方的意思，给对方同样长的表达时间。'] },
+  { key: 'repair', label: '冲突处理', low: '先退开缓冲', high: '主动协商修复', words: ['冷却后再谈', '边缓冲边协商', '把分歧谈开'],
+    readings: ['冲突一来，你更需要降温、换个环境或暂时搁置，再考虑下一步。', '你愿意处理分歧，但是否马上谈取决于当时的情绪和问题大小。', '你较常主动重开对话、讨论差异，或把争执转成下一步安排。'],
+    advice: ['暂停对话时约一个回来谈的时间，让冷静不变成失联。', '下次争执只选一个问题，结尾约定一个可以做到的小改变。', '确认双方都有精力再谈，不要求对方必须当场得出结论。'] },
+  { key: 'independence', label: '依赖与独立', low: '偏好一起行动', high: '保持自主生活', words: ['一起更安心', '亲密有留白', '保留自己的轨道'],
+    readings: ['你喜欢共同参与日常和决定，两个人一起做事会增加连接感。', '你能在陪伴与个人安排之间切换，希望两边都留有时间。', '即使恋爱中，你也倾向保留自己的朋友、计划和处理事务的节奏。'],
+    advice: ['本周留出一次自己决定的小安排，结束后再分享体验。', '把共同时间与个人时间一起排进日程，减少临时拉扯。', '保留个人计划的同时主动约一段专注陪伴，让对方知道自己有位置。'] },
+  { key: 'romance', label: '浪漫偏好', low: '日常实际行动', high: '仪式与惊喜', words: ['日常就是爱', '小仪式刚刚好', '心动要被点亮'],
+    readings: ['你更容易被实际帮助和舒适日常打动，对复杂仪式未必有同样需求。', '你喜欢一些特别时刻，也看重这些时刻之外的日常照顾。', '你较重视惊喜、纪念和有情绪氛围的体验，希望喜欢被特别地表达。'],
+    advice: ['问对方最近期待哪种小仪式，选一件你也舒服的做法。', '一起列出两个低成本的小仪式，让表达不必靠猜。', '先聊预算与精力，再策划惊喜，别把用心只换算成花费。'] },
+  { key: 'responsibility', label: '责任承担', low: '按当下余力处理', high: '主动落实与跟进', words: ['留意自己的余力', '分工一起做', '承诺会跟进'],
+    readings: ['关系事务出现时，你更可能先顾及当下状态，等有余力或分工清楚再投入。', '你愿意承担自己的一部分，也期待对方共同落实。', '你倾向接住后续安排、检查是否做到，并为共同问题投入时间。'],
+    advice: ['本周选一件已经答应的小事，给出能兑现的完成时间。', '把共同事务的负责人和检查时间说清，避免默认对方会做。', '负责不等于包办，列一件需要对方承担的事并明确提出。'] },
+  { key: 'control', label: '节奏主导', low: '弹性共同决定', high: '倾向掌握安排', words: ['给变化留位置', '一起掌握节奏', '安排要有把握'],
+    readings: ['安排变化时，你较能让事情自然展开，或把决定权留给彼此协商。', '你希望事情有基本安排，同时能在部分环节接受临时调整。', '你较需要提前掌握时间、信息与决定，在关系节奏模糊时容易想接手。'],
+    advice: ['重要约定上也说出自己的偏好，弹性不等于什么都不需要。', '讨论哪些事提前约定、哪些可以临时决定，保留共同选择。', '把“照我的计划”改为提供两个方案，再认真接受对方的第三种想法。'] },
+  { key: 'commitment', label: '长期关系倾向', low: '重视当下体验', high: '投入长期建设', words: ['先享受此刻', '边走边计划', '一起经营以后'],
+    readings: ['你更习惯先看眼前是否合拍，再决定是否作出更长远的承诺。', '你会谈未来，也希望共同计划随着当下相处继续调整。', '安排被打乱或遇到选择时，你较常把未来稳定和持续陪伴放进考虑。'],
+    advice: ['把当前能承诺的范围讲清楚，让对方不用靠猜理解你的节奏。', '约一次轻量的未来对话，只谈接下来三个月的期待。', '讨论长期计划时也问彼此现在是否快乐，给目标保留调整空间。'] }
+];
+const dimensionKeys = dimensions.map(dimension => dimension.key);
+const MODEL_VERSION = '2.0';
+
+// Personal report language is driven by scores, not copied from the nearest archetype.
+const behaviorNotes = {
+  initiative: {
+    strength: ['你会先给彼此观察的空间，通常不急着替关系定下节奏。', '你能在主动与回应之间切换，较容易注意互动有没有来回。', '你能把想靠近的心意落实成邀约，不容易让关系一直停在猜测里。'],
+    risk: ['如果双方都在等信号，喜欢可能停在谁也没有说清的一步。', '若对方也习惯看反馈再行动，你们可能会反复试探。', '推进太快时，对方可能还没来得及表达自己的意愿。'] },
+  reassurance: {
+    strength: ['你较能容纳短暂的联系空白，忙碌时不容易让等待占满生活。', '你需要连接，也能为忙碌留出一定弹性。', '你重视回应和稳定联系，有助于较早察觉双方连接上的变化。'],
+    risk: ['自己能接受的少联系，未必是对方也舒服的频率。', '没有说清最低期待时，双方可能各自以为联络频率刚刚好。', '模糊回复或临时改约可能让你耗费很多精力猜测，确认需求需要说具体。'] },
+  boundaries: {
+    strength: ['你乐于让伴侣参与生活，容易营造“我们是一队”的亲近感。', '你会看具体场景协商边界，能兼顾连接与个人空间。', '你较能尊重各自社交和隐私，给关系留出独立生长的余地。'],
+    risk: ['期待高度共享时，可能忽略对方仍有不想公开的空间；共享需要双方自愿。', '只在不舒服时临时设边界，可能让对方不清楚前后的区别。', '边界说得很清楚却很少分享近况时，对方可能不知道怎样靠近你。'] },
+  expression: {
+    strength: ['你通常会先整理感受，给自己一点理解情绪的时间。', '你会挑选表达时机，能根据场合调整说法。', '你愿意把在意的事说出来，让对方有机会直接理解你的需要。'],
+    risk: ['感受留在心里太久，对方可能只看见沉默或配合，读不到你的真实期待。', '等合适时机时，容易把一个原本想说的小问题拖过去。', '情绪强烈时表达得快，可能让倾听对方的空间变小。'] },
+  repair: {
+    strength: ['你会为升温的冲突争取缓冲，避免在没有余力时勉强谈下去。', '你愿意处理分歧，也留意双方当时能不能继续交流。', '你倾向重开对话，把反复争执变成可以讨论的问题。'],
+    risk: ['暂停如果没有结束时间，容易变成双方都不知道怎样重开的冷场。', '看情绪决定是否处理时，某些重要问题可能一直等不到合适的时机。', '迫切想修复时，可能希望对方必须当场回应，反而让对方更想退开。'] },
+  independence: {
+    strength: ['你愿意共同参与日常，容易用陪伴累积连接感。', '你能在共同时间与个人生活之间调整，不必每件事都选一边。', '你保有自己的朋友、兴趣和安排，让生活有多种支持来源。'],
+    risk: ['为了维持一起行动，可能把自己的兴趣或朋友安排一再后移。', '两边都想照顾时，可能让自己的日程过满。', '个人轨道很完整时，可能忘了主动给共同时间留一个确定位置。'] },
+  romance: {
+    strength: ['你容易从实际照顾和普通日常里感到爱，不需要每次都很隆重。', '你会兼顾日常与小仪式，让用心不必总靠大安排。', '你会留意值得纪念的时刻，容易为关系创造有情绪温度的体验。'],
+    risk: ['自己不太在意仪式时，可能低估对方对特殊日子的期待。', '觉得小仪式刚好时，也需要确认对方是不是想要同一种表达。', '精心准备不一定刚好是对方需要的方式，也别让纪念日成为用心程度的考试。'] },
+  responsibility: {
+    strength: ['你会留意当下是否还有精力处理事务，不容易一开始就接下所有安排。', '你倾向共同分担，愿意为自己能承担的一部分投入。', '你愿意把承诺落到实际行动，并跟进共同事务的后续。'],
+    risk: ['当下暂时放下的问题，如果没有约定谁来跟进，可能一直悬着。', '分工不明确时，双方可能都以为另一人会接住下一步。', '主动落实太多时，可能逐渐包办，把疲惫藏在“我来就好”里。'] },
+  control: {
+    strength: ['你愿意给安排留弹性，不急于让所有事都按自己的方案进行。', '你希望有基本框架，也能在部分环节接受共同调整。', '你善于主动理顺安排，让模糊的时间与选择变得明确。'],
+    risk: ['很少主张自己的安排时，也可能让对方误以为你没有偏好。', '哪些事必须提前确定、哪些能灵活变化，双方的理解可能不同。', '先给出完整方案时，对方可能只有执行机会，却没有真正的决定权。'] },
+  commitment: {
+    strength: ['你会重视眼前真实的相处体验，通常不急于做超出当前把握的承诺。', '你愿意边相处边调整未来安排，给关系留下试行的空间。', '你会把当前的选择放进共同未来里，愿意持续为关系留位置。'],
+    risk: ['如果一直只说“以后再看”，对方可能无法判断你愿意投入到什么程度。', '渐进计划缺少再次讨论的时间时，可能一直停在暂定状态。', '未来目标很清楚时，也可能忽略两个人当下相处是否轻松、快乐。'] }
+};
+
+function bandIndex(value) {
+  const rounded = Math.round(value);
+  return rounded <= 33 ? 0 : rounded >= 67 ? 2 : 1;
+}
+
+function effectiveScore(question, optionIndex, dimensionKey) {
+  const raw = question.options[optionIndex].scores[dimensionKey];
+  return question.reverse.includes(dimensionKey) ? 4 - raw : raw;
+}
+
+function scoreAnswers(bank, selections) {
+  if (!bank.length || selections.length !== bank.length || selections.some(answer => !Number.isInteger(answer) || answer < 0 || answer > 3)) {
+    throw new Error('请完成当前版本的所有题目后查看报告。');
+  }
+  const evidence = Object.fromEntries(dimensionKeys.map(key => [key, []]));
+  bank.forEach((question, index) => question.dimensions.forEach(key => evidence[key].push({
+    questionIndex: index, questionId: question.id, value: effectiveScore(question, selections[index], key)
+  })));
+  // Match with unrounded means; rounding is only used in visible labels.
+  const scores = Object.fromEntries(dimensionKeys.map(key => {
+    const values = evidence[key];
+    if (values.length !== 3) throw new Error(`维度 ${key} 必须有三个情境。`);
+    return [key, values.reduce((sum, item) => sum + item.value, 0) / values.length * 25];
+  }));
+  const ranked = archetypes.map((type, index) => ({
+    type, index,
+    distance: Math.sqrt(dimensionKeys.reduce((sum, key) => sum + (scores[key] - type.profile[key]) ** 2, 0) / dimensionKeys.length)
+  })).sort((a, b) => a.distance - b.distance || a.index - b.index);
+  const varied = dimensionKeys.filter(key => {
+    const values = evidence[key].map(item => item.value);
+    return Math.max(...values) - Math.min(...values) >= 3;
+  });
+  return { scores, evidence, ranked, varied, archetype: ranked[0].type };
+}
+
+
+    function zodiacAvatar(type) {
+      const [bg, main, accent] = type.colors;
+      const ink = '#24314d';
+      const face = `<circle cx="63" cy="79" r="4" fill="${ink}"/><circle cx="97" cy="79" r="4" fill="${ink}"/><path d="M72 94 Q80 100 88 94" fill="none" stroke="${ink}" stroke-width="3" stroke-linecap="round"/><circle cx="55" cy="91" r="5" fill="${accent}" opacity=".55"/><circle cx="105" cy="91" r="5" fill="${accent}" opacity=".55"/>`;
+      const art = {
+        rat: `<circle cx="43" cy="57" r="22" fill="${main}"/><circle cx="117" cy="57" r="22" fill="${main}"/><circle cx="43" cy="57" r="11" fill="${accent}" opacity=".55"/><circle cx="117" cy="57" r="11" fill="${accent}" opacity=".55"/><ellipse cx="80" cy="84" rx="48" ry="42" fill="#fffaf3"/><path d="M76 91 L84 91 L80 98 Z" fill="${accent}"/><path d="M42 93 H19 M43 100 L21 106 M118 93 H141 M117 100 L139 106" stroke="${ink}" stroke-width="2" stroke-linecap="round"/>${face}`,
+        ox: `<path d="M48 47 Q24 28 27 59 Q36 48 51 57 M112 47 Q136 28 133 59 Q124 48 109 57" fill="#f2d7a1" stroke="${ink}" stroke-width="3"/><path d="M34 59 Q21 56 18 69 Q34 73 48 67 M126 59 Q139 56 142 69 Q126 73 112 67" fill="${main}"/><ellipse cx="80" cy="83" rx="48" ry="43" fill="${main}"/><ellipse cx="80" cy="100" rx="27" ry="19" fill="#f3c6a6"/><circle cx="69" cy="102" r="3" fill="${ink}"/><circle cx="91" cy="102" r="3" fill="${ink}"/>${face}`,
+        tiger: `<path d="M40 58 L34 33 L60 49 M120 58 L126 33 L100 49" fill="${main}" stroke="${ink}" stroke-width="3"/><circle cx="80" cy="83" r="49" fill="${main}"/><path d="M80 35 L72 56 H88 Z M52 47 L59 64 M108 47 L101 64" fill="${ink}" stroke="${ink}" stroke-width="5" stroke-linecap="round"/><ellipse cx="80" cy="96" rx="24" ry="19" fill="#fff3d9"/><path d="M76 91 H84 L80 97 Z" fill="${accent}"/>${face}`,
+        rabbit: `<ellipse cx="55" cy="39" rx="15" ry="35" fill="${main}" transform="rotate(-12 55 39)"/><ellipse cx="105" cy="39" rx="15" ry="35" fill="${main}" transform="rotate(12 105 39)"/><ellipse cx="55" cy="39" rx="6" ry="24" fill="${accent}" opacity=".65" transform="rotate(-12 55 39)"/><ellipse cx="105" cy="39" rx="6" ry="24" fill="${accent}" opacity=".65" transform="rotate(12 105 39)"/><ellipse cx="80" cy="88" rx="48" ry="40" fill="#fffaf5"/><path d="M75 91 Q80 86 85 91 Q83 98 80 99 Q77 98 75 91" fill="${accent}"/>${face}`,
+        dragon: `<path d="M53 51 Q37 29 45 20 M47 34 L31 29 M107 51 Q123 29 115 20 M113 34 L129 29" fill="none" stroke="${accent}" stroke-width="5" stroke-linecap="round"/><path d="M35 75 L18 64 L26 84 L15 94 L37 98 M125 75 L142 64 L134 84 L145 94 L123 98" fill="${main}"/><ellipse cx="80" cy="83" rx="47" ry="42" fill="${main}"/><path d="M80 42 L72 57 L80 54 L88 57 Z" fill="${accent}"/><path d="M51 72 Q61 64 68 72 M109 72 Q99 64 92 72" fill="none" stroke="${ink}" stroke-width="3" stroke-linecap="round"/>${face}`,
+        snake: `<path d="M50 113 Q80 139 111 113 Q127 99 112 89 Q99 80 88 94" fill="none" stroke="${main}" stroke-width="18" stroke-linecap="round"/><ellipse cx="75" cy="72" rx="38" ry="43" fill="${main}"/><path d="M75 26 L69 39 L81 39 Z" fill="${accent}"/><circle cx="61" cy="70" r="4" fill="${ink}"/><circle cx="87" cy="70" r="4" fill="${ink}"/><path d="M74 87 L74 97 M74 97 L68 103 M74 97 L80 103" fill="none" stroke="${accent}" stroke-width="3" stroke-linecap="round"/>`,
+        horse: `<path d="M48 58 L43 27 L66 50 M102 50 L122 28 L116 63" fill="${main}" stroke="${ink}" stroke-width="3"/><path d="M105 41 Q137 57 119 109 L102 88 Z" fill="${accent}"/><ellipse cx="79" cy="82" rx="43" ry="48" fill="${main}"/><ellipse cx="80" cy="104" rx="27" ry="19" fill="#eac4a6"/><circle cx="70" cy="104" r="3" fill="${ink}"/><circle cx="90" cy="104" r="3" fill="${ink}"/>${face}`,
+        goat: `<path d="M55 54 Q26 43 38 22 Q56 24 61 47 M105 54 Q134 43 122 22 Q104 24 99 47" fill="none" stroke="${accent}" stroke-width="7" stroke-linecap="round"/><path d="M45 57 L25 51 L34 70 M115 57 L135 51 L126 70" fill="${main}"/><ellipse cx="80" cy="82" rx="45" ry="42" fill="#f8f2e9"/><path d="M69 118 L80 140 L91 118" fill="${main}"/><path d="M76 94 Q80 98 84 94" fill="none" stroke="${ink}" stroke-width="3"/>${face}`,
+        monkey: `<circle cx="37" cy="76" r="22" fill="${main}"/><circle cx="123" cy="76" r="22" fill="${main}"/><circle cx="37" cy="76" r="11" fill="${accent}" opacity=".45"/><circle cx="123" cy="76" r="11" fill="${accent}" opacity=".45"/><circle cx="80" cy="78" r="48" fill="${main}"/><path d="M80 50 Q61 35 51 57 Q43 81 60 107 Q80 125 100 107 Q117 81 109 57 Q99 35 80 50" fill="#f6e5cc"/><path d="M72 94 Q80 102 88 94" fill="none" stroke="${ink}" stroke-width="3"/>${face}`,
+        rooster: `<circle cx="62" cy="31" r="12" fill="${accent}"/><circle cx="80" cy="25" r="14" fill="${accent}"/><circle cx="98" cy="32" r="12" fill="${accent}"/><path d="M42 59 L24 46 L26 70" fill="${main}"/><ellipse cx="77" cy="82" rx="45" ry="43" fill="#fff7e3"/><path d="M113 80 L143 91 L113 100 Z" fill="${accent}"/><path d="M72 98 Q80 103 88 98" fill="none" stroke="${ink}" stroke-width="3"/>${face}`,
+        dog: `<path d="M49 55 Q25 42 21 67 Q23 94 49 102 L59 75 Z M111 55 Q135 42 139 67 Q137 94 111 102 L101 75 Z" fill="${main}"/><ellipse cx="80" cy="82" rx="46" ry="43" fill="#f8e7d4"/><ellipse cx="80" cy="95" rx="23" ry="18" fill="#fffaf3"/><path d="M74 90 Q80 85 86 90 Q83 97 80 98 Q77 97 74 90" fill="${ink}"/>${face}`,
+        pig: `<path d="M48 57 L38 34 Q60 37 65 52 M112 57 L122 34 Q100 37 95 52" fill="${main}" stroke="${ink}" stroke-width="3"/><circle cx="80" cy="82" r="48" fill="${main}"/><ellipse cx="80" cy="98" rx="26" ry="20" fill="#f6b7b1"/><ellipse cx="70" cy="98" rx="4" ry="6" fill="${accent}"/><ellipse cx="90" cy="98" rx="4" ry="6" fill="${accent}"/>${face}`
+      }[type.key];
+      const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160"><rect width="160" height="160" rx="24" fill="${bg}"/><circle cx="25" cy="25" r="7" fill="#fff" opacity=".45"/><circle cx="137" cy="126" r="12" fill="#fff" opacity=".28"/><path d="M132 29 L135 36 L142 39 L135 42 L132 49 L129 42 L122 39 L129 36 Z" fill="${accent}" opacity=".8"/>${art}</svg>`;
+      return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`;
+    }
+
+    function renderZodiacGallery() {
+      $('zodiacRail').innerHTML = archetypes.map(type => `<article class="zodiac-card"><img src="${zodiacAvatar(type)}" alt="${type.animal}生肖头像"><div class="zodiac-meta"><strong>${type.name}</strong><span>${type.animal}生肖</span></div></article>`).join('');
+    }
+
+
+
+const versionConfig = {
+  male: { label: '男生版', questions: questionBanks.male },
+  female: { label: '女生版', questions: questionBanks.female }
+};
+let selectedVersion = null;
+let activeQuestions = [];
+let currentIndex = 0;
+let answers = [];
+let hasReport = false;
+const $ = id => document.getElementById(id);
+const escapeHtml = value => String(value).replace(/[&<>"']/g, char => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[char]);
+const motionBehavior = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth';
+
+function showView(viewId) {
+  document.querySelectorAll('.view').forEach(view => view.classList.toggle('is-active', view.id === viewId));
+  window.scrollTo({ top: 0, behavior: 'instant' });
+  const title = $(viewId).querySelector('h1, h2');
+  title.setAttribute('tabindex', '-1');
+  title.focus({ preventScroll: true });
+}
+
+function renderMap() {
+  const map = $('qMap');
+  map.innerHTML = '';
+  activeQuestions.forEach((question, index) => {
+    const button = document.createElement('button');
+    button.type = 'button'; button.className = 'q-dot'; button.textContent = index + 1;
+    const answered = answers[index] !== null;
+    button.setAttribute('aria-label', `第 ${index + 1} 题，${answered ? '已答' : '未答'}`);
+    if (index === currentIndex) { button.classList.add('is-current'); button.setAttribute('aria-current', 'step'); }
+    if (answered) button.classList.add('is-answered');
+    button.addEventListener('click', () => { currentIndex = index; renderQuestion(); });
+    map.appendChild(button);
+  });
+  const count = answers.filter(answer => answer !== null).length;
+  const percent = Math.round(count / activeQuestions.length * 100);
+  $('answeredCount').textContent = `已答 ${count} / ${activeQuestions.length} 题`;
+  $('progressBar').style.width = `${percent}%`;
+  $('progressTrack').setAttribute('aria-valuenow', percent);
+  $('progressTrack').setAttribute('aria-valuetext', `已答 ${count} 题，共 ${activeQuestions.length} 题`);
+  $('recalculateBtn').hidden = !(hasReport && count === activeQuestions.length);
+}
+
+function renderQuestion() {
+  const question = activeQuestions[currentIndex];
+  $('quizCount').textContent = `${selectedVersion.label} · 第 ${currentIndex + 1} 题 / 共 ${activeQuestions.length} 题`;
+  $('questionKicker').textContent = `SCENE ${String(currentIndex + 1).padStart(2, '0')} · ${question.scene}`;
+  $('questionText').textContent = question.text;
+  $('prevBtn').disabled = currentIndex === 0;
+  $('prevBtn').style.opacity = currentIndex === 0 ? '.45' : '1';
+  $('nextBtn').textContent = currentIndex === activeQuestions.length - 1 ? '查看报告 ↗' : '下一题 →';
+  $('options').innerHTML = question.options.map((option, index) => `<div class="option"><input type="radio" name="answer" id="answer-${index}" value="${index}" ${answers[currentIndex] === index ? 'checked' : ''}><label for="answer-${index}"><span class="option-mark" aria-hidden="true">${String.fromCharCode(65 + index)}</span><span class="option-text">${escapeHtml(option.text)}</span></label></div>`).join('');
+  document.querySelectorAll('input[name="answer"]').forEach(input => input.addEventListener('change', () => {
+    answers[currentIndex] = Number(input.value);
+    $('quizHelper').textContent = '';
+    renderMap();
+    if (hasReport && answers.every(answer => answer !== null)) renderResult();
+  }));
+  $('quizHelper').textContent = '';
+  renderMap();
+  $('questionText').setAttribute('tabindex', '-1');
+  $('questionText').focus({ preventScroll: true });
+  const card = $('questionText').closest('.question-card');
+  if (window.matchMedia('(max-width: 820px)').matches && card.getBoundingClientRect().top < 0) {
+    card.scrollIntoView({ behavior: motionBehavior(), block: 'start' });
+  }
+}
+
+function calculateResult() { return scoreAnswers(activeQuestions, answers); }
+
+function getDimension(key) { return dimensions.find(dimension => dimension.key === key); }
+
+function strongestDimensions(result) {
+  return [...dimensions].sort((a, b) => Math.abs(result.scores[b.key] - 50) - Math.abs(result.scores[a.key] - 50));
+}
+
+function selectedEvidence(result, key) {
+  const mean = result.scores[key] / 25;
+  const item = [...result.evidence[key]].sort((a, b) => Math.abs(a.value - mean) - Math.abs(b.value - mean) || a.questionIndex - b.questionIndex)[0];
+  const question = activeQuestions[item.questionIndex];
+  const option = question.options[answers[item.questionIndex]];
+  return `在“${question.scene}”中，你选择了“${option.text.replace(/。$/, '')}”`;
+}
+
+function questionAudit(question, selected = null, showEdit = false, index = 0) {
+  const names = question.dimensions.map(key => getDimension(key).label).join('、');
+  const reverse = question.reverse.length ? `${question.reverse.map(key => getDimension(key).label).join('、')}（有效分 = 4 − 原始分）` : '无（有效分 = 原始分）';
+  const selectedText = selected === null ? '' : `<p class="audit-selected">你的选择：${String.fromCharCode(65 + selected)}. ${escapeHtml(question.options[selected].text)}</p><p>${escapeHtml(question.options[selected].note)}</p>`;
+  return `<details class="question-audit"><summary>${question.id} · ${escapeHtml(question.text)}</summary>${selectedText}<p><strong>测量维度：</strong>${names}<br><strong>反向计分：</strong>${reverse}</p><p><strong>为什么能区分：</strong>${escapeHtml(question.why)}</p><ol class="audit-options" type="A">${question.options.map((option, optionIndex) => `<li class="${selected === optionIndex ? 'is-selected' : ''}"><strong>${escapeHtml(option.text)}</strong><span>${question.dimensions.map(key => `${getDimension(key).label}：${option.scores[key]}${question.reverse.includes(key) ? ` → ${effectiveScore(question, optionIndex, key)}（反向后）` : '（正向）'}`).join('；')}</span><span>${escapeHtml(option.note)}</span></li>`).join('')}</ol>${showEdit ? `<button class="secondary-btn" type="button" data-edit-question="${index}">修改这道题</button>` : ''}</details>`;
+}
+
+function prototypeTable() {
+  return `<div class="model-table-wrap" tabindex="0" role="region" aria-label="十二原型维度参考值，可横向滚动"><table class="model-table prototype-table"><thead><tr><th scope="col">原型</th>${dimensions.map(dimension => `<th scope="col">${dimension.label}</th>`).join('')}</tr></thead><tbody>${archetypes.map(type => `<tr><th scope="row">${type.name}</th>${dimensionKeys.map(key => `<td>${type.profile[key]}</td>`).join('')}</tr>`).join('')}</tbody></table></div>`;
+}
+
+function renderModelOverview() {
+  $('modelOverview').innerHTML = `<p>模型 ${MODEL_VERSION} · 情境题 → 十维画像 → 十二生肖原型。建议先凭第一反应答题，再阅读下面的分值，减少对答案的揣测。</p>
+    <ol><li>男版 13 题、女版 14 题是两套不同场景，测量同一组十个维度。每个维度在每版都由 3 题测量，共 30 个计分观测点；每题只计入标注的 2–3 个维度。</li>
+    <li>选项原始分为 0–4。正向维度保留原始分；反向维度先做 4 − 原始分。A/B/C/D 的分值顺序随情境变化，不给字母计总数，也不向生肖直接加分。</li>
+    <li>同维度三题等权平均，再乘 25，得到 0–100 分。不同题数不会额外加权；匹配用未取整分数，页面显示四舍五入整数。文字解读按显示分 0–33、34–66、67–100 分三段。</li>
+    <li>十个维度等权，计算画像到每个原型的均方根距离，距离最小的原型排第一。完全同距时按鼠、牛、虎、兔、龙、蛇、马、羊、猴、鸡、狗、猪顺序展示，并提示并列；没有随机数和性别加分。</li>
+    <li>同一维度三题有效分相差至少 3 分，会标注“随场景变化”。它不扣分、不判定撒谎，也不是统计信度；我们仍使用全部有效答案。</li></ol>
+    <p class="formula">维度分 = (有效分₁ + 有效分₂ + 有效分₃) ÷ 12 × 100<br>原型距离 = √[Σ(你的维度分 − 原型参考分)² ÷ 10]</p>
+    <p>较高的“安全感需求”表示更需要回应，不表示更有安全感；较高的“空间边界”表示保留独立空间；较高的“节奏主导”表示更想掌握安排。各项是不同偏好，没有综合优劣分。这些分值、阈值和原型由本网站原创设定，未经过常模、信效度或跨性别等值验证；共享尺度不代表可以用两版分数比较男女群体。</p>
+    <h3>十维定义与交叉测量</h3><div class="model-table-wrap"><table class="model-table"><thead><tr><th scope="col">维度与方向</th><th scope="col">男版题号</th><th scope="col">女版题号</th></tr></thead><tbody>${dimensions.map(dimension => `<tr><th scope="row">${dimension.label}<br><small>${dimension.low} → ${dimension.high}</small></th>${['male', 'female'].map(version => `<td>${questionBanks[version].filter(question => question.dimensions.includes(dimension.key)).map(question => question.id).join('、')}</td>`).join('')}</tr>`).join('')}</tbody></table></div>
+    <details class="model-details"><summary>十二生肖原型的十维参考画像</summary><p>以下为创作标签的参考坐标，不是人口统计规律，也不以出生生肖预测性格。</p>${prototypeTable()}</details>
+    ${['male', 'female'].map(version => `<details class="model-details"><summary>${versionConfig[version].label}完整题库 · ${questionBanks[version].length} 道不同情境</summary>${questionBanks[version].map(question => questionAudit(question)).join('')}</details>`).join('')}`;
+}
+
+function renderResult() {
+  const result = calculateResult();
+  const type = result.archetype;
+  const prominent = strongestDimensions(result);
+  const gap = result.ranked[1].distance - result.ranked[0].distance;
+  const tied = result.ranked.filter(item => Math.abs(item.distance - result.ranked[0].distance) < 1e-9);
+  $('resultType').textContent = type.name;
+  $('resultTagline').textContent = type.tagline;
+  $('resultAvatar').src = zodiacAvatar(type);
+  $('resultAvatar').alt = `${type.animal}生肖 · ${type.name}`;
+  $('resultCount').textContent = `${selectedVersion.label} · ${activeQuestions.length} 个情境 · 十维画像`;
+  $('matchNote').textContent = tied.length > 1 ? `本次有 ${tied.length} 个原型并列接近，按固定生肖顺序展示；请结合十维画像阅读。` : gap < 3 ? `你也接近${result.ranked[1].type.name}，两者距离差不到 3 分；本次是混合倾向。` : `相邻原型是${result.ranked[1].type.name}。这是一种相近的行为组合，不是固定身份。`;
+  $('coreSummary').textContent = prominent.slice(0, 3).map(dimension => dimension.readings[bandIndex(result.scores[dimension.key])]).join('');
+  $('coreEvidence').innerHTML = prominent.slice(0, 2).map(dimension => `<p>${escapeHtml(selectedEvidence(result, dimension.key))}。</p>`).join('');
+  $('dimensionGrid').innerHTML = dimensions.map(dimension => {
+    const score = Math.round(result.scores[dimension.key]);
+    return `<article class="dimension"><div class="dimension-row"><span>${dimension.label}</span><strong>${score}<small> / 100</small></strong></div><div class="dimension-track" role="meter" aria-label="${dimension.label}" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${score}"><div class="dimension-fill" style="width:${score}%"></div></div><div class="dimension-poles"><span>${dimension.low}</span><span>${dimension.high}</span></div><p>${dimension.readings[bandIndex(score)]}</p><p class="small-note">交叉观察：${result.evidence[dimension.key].map(item => item.questionId).join('、')}</p></article>`;
+  }).join('');
+  $('contextNote').textContent = result.varied.length ? `这些取向随场景变化较大：${result.varied.map(key => getDimension(key).label).join('、')}。同一维度三次选择相差至少 3 分（0–4 尺度），说明你可能会因具体处境改变做法；这不是答题错误，也不会扣分。` : '本次同维度的三个选择没有出现很大的跨度。这只描述本次答案的接近程度，不代表人格固定或测评已获得心理学验证。';
+  const scores = result.scores;
+  const boundaryNeed = bandIndex(scores.boundaries) === 2 ? '尊重个人社交与隐私，不用查看行踪证明亲密' : bandIndex(scores.boundaries) === 0 ? '愿意分享近况、提前讨论社交边界，同时保留双方说“不”的权利' : '遇到敏感社交场景时愿意先商量';
+  const responseNeed = bandIndex(scores.reassurance) === 2 ? '稳定回应、忙碌时给出可预期的联系时间' : bandIndex(scores.reassurance) === 0 ? '容许联系有空白，也能清楚说出自己的需要' : '保持基本回应，并允许各自忙碌';
+  const independent = bandIndex(scores.independence) === 2 ? '保留自己的节奏' : '有可以共同安排的相处时间';
+  const primary = prominent[0], secondary = prominent[1];
+  const panels = [
+    ['03 / 你的恋爱优势', [primary, secondary].map(dimension => behaviorNotes[dimension.key].strength[bandIndex(scores[dimension.key])]).join(''), `${selectedEvidence(result, primary.key)}。这为上面的取向提供了一个具体线索。`],
+    ['04 / 容易出现的卡点', [primary, secondary].map(dimension => behaviorNotes[dimension.key].risk[bandIndex(scores[dimension.key])]).join(''), '这是这些取向在双方期待不一致时可能出现的摩擦，不代表问题已经发生。可以先和对方核对实际体验。'],
+    ['05 / 你需要的伴侣相处方式', `从你的答案看，你可能更需要一个能${responseNeed}，也${boundaryNeed}的人。`, '这是可以一起商量的相处行为，不限定伴侣生肖或性别，也不保证某一种人一定与你合适。'],
+    ['06 / 你的表达与冲突模式', `${getDimension('expression').readings[bandIndex(scores.expression)]}${getDimension('repair').readings[bandIndex(scores.repair)]}`, `${selectedEvidence(result, 'repair')}。沟通时可以试试：${getDimension('expression').advice[bandIndex(scores.expression)]}`],
+    ['07 / 你的安全感来源', `对你而言，${responseNeed}，以及${independent}，可能比单一句“别多想”更有用。`, `${selectedEvidence(result, 'reassurance')}。这是这次回答里你希望怎样获得回应的一个线索。`]
+  ];
+  $('reportGrid').innerHTML = panels.map(([title, main, detail]) => `<article class="report-block"><h3>${title}</h3><p>${escapeHtml(main)}</p><p>${escapeHtml(detail)}</p></article>`).join('');
+  const suggestions = prominent.slice(0, 3).map(dimension => ({ label: dimension.label, text: dimension.advice[bandIndex(scores[dimension.key])] }));
+  $('actionList').innerHTML = suggestions.map(suggestion => `<article class="action"><div><h4>${suggestion.label}</h4><p>${escapeHtml(suggestion.text)}</p></div></article>`).join('');
+  $('keywordList').innerHTML = prominent.slice(0, 5).map(dimension => `<span class="keyword">${dimension.words[bandIndex(scores[dimension.key])]}</span>`).join('');
+  const differences = dimensions.filter(dimension => Math.abs(scores[dimension.key] - type.profile[dimension.key]) >= 25);
+  $('archetypeNotes').innerHTML = `<summary>认识${type.name}：原型参考与本次差异</summary><p>原型是帮助理解组合的故事。上面的个人报告按你的实际维度生成；以下是原型参考，不要求你全部符合。</p>${differences.length ? `<p>本次与原型相差较多的维度：${differences.map(dimension => `${dimension.label}（你 ${Math.round(scores[dimension.key])} / 参考 ${type.profile[dimension.key]}）`).join('、')}。阅读这些部分时请优先看你的实际行为。</p>` : ''}${[['恋爱特征', type.traits.join('、')], ['原型优势', type.strength], ['原型盲区', type.risk], ['恋爱需求', type.needs], ['沟通方式', type.communication], ['冲突模式', type.conflict], ['安全感来源', type.security]].map(([label, value]) => `<p><strong>${label}：</strong>${escapeHtml(value)}</p>`).join('')}<ol>${type.actions.map(text => `<li>${escapeHtml(text)}</li>`).join('')}</ol>`;
+  $('reviewList').innerHTML = activeQuestions.map((question, index) => questionAudit(question, answers[index], true, index)).join('');
+  $('reviewList').querySelectorAll('[data-edit-question]').forEach(button => button.addEventListener('click', () => {
+    currentIndex = Number(button.dataset.editQuestion); showView('quizView'); renderQuestion();
+  }));
+  $('matchAudit').innerHTML = `<p>十维等权，采用未取整均值。距离越小越接近，距离不是概率、准确率或专业诊断。相同版本、相同答案始终得到相同排序；前两名距离差小于 3 时显示混合倾向，这个阈值是编辑设定。</p><div class="model-table-wrap"><table class="model-table"><thead><tr><th scope="col">维度</th><th scope="col">三题有效分</th><th scope="col">你的得分</th><th scope="col">原型参考</th></tr></thead><tbody>${dimensions.map(dimension => `<tr><th scope="row">${dimension.label}</th><td>${result.evidence[dimension.key].map(item => `${item.questionId}: ${item.value}`).join(' / ')}</td><td>${scores[dimension.key].toFixed(2)}</td><td>${type.profile[dimension.key]}</td></tr>`).join('')}</tbody></table></div><ol>${result.ranked.map(item => `<li>${item.type.name}：距离 ${item.distance.toFixed(3)}</li>`).join('')}</ol>`;
+  hasReport = true;
+}
+
+function submitReport() {
+  const unanswered = answers.findIndex(answer => answer === null);
+  if (unanswered !== -1) {
+    currentIndex = unanswered; renderQuestion();
+    $('quizHelper').textContent = `第 ${unanswered + 1} 题还未选择，请补充后查看报告。`;
+    return;
+  }
+  renderResult(); showView('resultView');
+}
+
+function validateAndNext() {
+  if (answers[currentIndex] === null) { $('quizHelper').textContent = '请先选一个最接近你实际反应的答案。'; return; }
+  if (currentIndex < activeQuestions.length - 1) { currentIndex += 1; renderQuestion(); return; }
+  submitReport();
+}
+
+function chooseVersion() {
+  selectedVersion = null; activeQuestions = []; answers = []; currentIndex = 0; hasReport = false;
+  showView('versionView');
+}
+
+function startVersion(versionKey) {
+  selectedVersion = versionConfig[versionKey];
+  activeQuestions = selectedVersion.questions;
+  answers = Array(activeQuestions.length).fill(null);
+  currentIndex = 0; hasReport = false;
+  showView('quizView'); renderQuestion();
+}
+
+$('startBtn').addEventListener('click', chooseVersion);
+$('maleVersionBtn').addEventListener('click', () => startVersion('male'));
+$('femaleVersionBtn').addEventListener('click', () => startVersion('female'));
+$('versionBackBtn').addEventListener('click', () => showView('homeView'));
+$('homeInfoBtn').addEventListener('click', () => $('infoAnchor').scrollIntoView({ behavior: motionBehavior(), block: 'center' }));
+$('prevBtn').addEventListener('click', () => { if (currentIndex > 0) { currentIndex -= 1; renderQuestion(); } });
+$('nextBtn').addEventListener('click', validateAndNext);
+$('recalculateBtn').addEventListener('click', submitReport);
+$('editBtn').addEventListener('click', () => { currentIndex = 0; showView('quizView'); renderQuestion(); });
+$('restartBtn').addEventListener('click', chooseVersion);
+$('changeVersionBtn').addEventListener('click', chooseVersion);
+$('brandHome').addEventListener('click', event => { event.preventDefault(); showView('homeView'); });
+$('zodiacPrev').addEventListener('click', () => $('zodiacRail').scrollBy({ left: -$('zodiacRail').clientWidth * .82, behavior: motionBehavior() }));
+$('zodiacNext').addEventListener('click', () => $('zodiacRail').scrollBy({ left: $('zodiacRail').clientWidth * .82, behavior: motionBehavior() }));
+renderZodiacGallery();
+renderModelOverview();
+  </script>
+</body>
+</html>
