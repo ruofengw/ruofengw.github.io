@@ -4,6 +4,23 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#1f2a44" />
+  <meta name="description" content="用 13–14 个日常关系情境，看见你的十维恋爱画像，并找到最接近的生肖恋爱人格。" />
+  <link rel="canonical" href="https://ruofengw.github.io/" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="zh_CN" />
+  <meta property="og:site_name" content="月下生肖" />
+  <meta property="og:title" content="月下生肖恋爱测评" />
+  <meta property="og:description" content="把相处方式，翻译成一只生肖。完成情境题，获得十维关系画像与可执行建议。" />
+  <meta property="og:url" content="https://ruofengw.github.io/" />
+  <meta property="og:image" content="https://ruofengw.github.io/social-preview.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="月下生肖恋爱测评：你的恋爱，像哪只生肖？" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="月下生肖恋爱测评" />
+  <meta name="twitter:description" content="把相处方式，翻译成一只生肖。" />
+  <meta name="twitter:image" content="https://ruofengw.github.io/social-preview.png" />
   <title>月下生肖恋爱测评</title>
   <style>
     :root {
@@ -38,6 +55,7 @@
 
     button { font: inherit; }
     button:focus-visible { outline: 3px solid rgba(120, 168, 189, .6); outline-offset: 3px; }
+    h1[tabindex="-1"]:focus, h2[tabindex="-1"]:focus, h3[tabindex="-1"]:focus { outline: none; }
     .shell { width: min(1120px, calc(100% - 40px)); margin: 0 auto; }
     .topbar {
       width: min(1120px, calc(100% - 40px));
@@ -234,6 +252,11 @@
     .dimension-fill { height: 100%; width: 0; border-radius: inherit; transition: width .6s ease; }
     .dim-intimacy { background: var(--rose); } .dim-safety { background: var(--sky); } .dim-repair { background: var(--sage); } .dim-boundary { background: var(--gold); }
     .result-section { margin-top: 32px; }
+    .share-panel { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 28px; align-items: center; margin-top: 22px; padding: 22px 24px; border: 1px solid var(--line); border-radius: 20px; background: rgba(255, 253, 249, .76); }
+    .share-panel h3 { margin: 0 0 5px; font-size: 18px; }
+    .share-panel p { margin: 0; color: var(--ink-soft); font-size: 13px; }
+    .share-actions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 10px; }
+    .share-actions .primary-btn, .share-actions .secondary-btn { min-height: 42px; padding: 10px 15px; font-size: 13px; }
     .section-title { display: flex; align-items: baseline; justify-content: space-between; gap: 20px; border-bottom: 1px solid var(--line); padding-bottom: 12px; margin-bottom: 19px; }
     .section-title h3 { margin: 0; font-size: 22px; letter-spacing: -.02em; } .section-title p { margin: 0; color: var(--ink-soft); font-size: 13px; }
     .insight-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
@@ -335,6 +358,8 @@
       .q-map { grid-template-columns: repeat(14, 1fr); }
       .q-dot { width: 100%; height: 32px; }
       .insight-grid, .action-list { grid-template-columns: 1fr; }
+      .share-panel { grid-template-columns: 1fr; gap: 16px; }
+      .share-actions { justify-content: flex-start; }
       .showcase-head { align-items: start; }
       .showcase-copy { display: none; }
     }
@@ -361,6 +386,7 @@
       .version-icon { width: 50px; height: 50px; margin-bottom: 24px; font-size: 27px; }
       .quiz-head { align-items: flex-start; flex-direction: column; gap: 4px; } .quiz-head h2 { font-size: 26px; }
       .question-card, .result-intro, .score-card { padding: 22px 18px; border-radius: 20px; }
+      .share-panel { padding: 18px; }
       .question-card h3 { font-size: 22px; margin-bottom: 20px; } .option label { padding: 14px 13px; }
       .option-text { font-size: 14px; } .question-nav { margin-top: 17px; gap: 8px; }
       .question-nav .primary-btn, .question-nav .secondary-btn { min-width: 0; flex: 1; padding: 12px 8px; font-size: 14px; white-space: nowrap; }
@@ -435,20 +461,20 @@
       <div class="shell">
         <div class="version-stage">
           <span class="eyebrow">选择答题版本</span>
-          <h2 id="versionTitle">这一次，你想答哪一份？</h2>
-          <p>男生版 13 题，女生版 14 题，各有不同的恋爱情境。两版共用十个维度与匹配规则，选择你想体验的一版。</p>
+          <h2 id="versionTitle">哪组情境更有代入感？</h2>
+          <p>两组题目分别从不同性别经验出发，男生版 13 题、女生版 14 题，共用同一套十维画像与匹配规则。它们不限制你的身份，请按更有代入感的一组选择。</p>
           <div class="version-grid">
             <button class="version-card" id="maleVersionBtn" data-version="male" type="button">
               <span class="version-icon" aria-hidden="true">♂</span>
-              <strong>男生版</strong>
+              <strong>男生情境版</strong>
               <span>13 道关系情境题 · 约 4 分钟</span>
-              <b>选择男生版 <span aria-hidden="true">→</span></b>
+              <b>选择这组情境 <span aria-hidden="true">→</span></b>
             </button>
             <button class="version-card" id="femaleVersionBtn" data-version="female" type="button">
               <span class="version-icon" aria-hidden="true">♀</span>
-              <strong>女生版</strong>
+              <strong>女生情境版</strong>
               <span>14 道关系情境题 · 约 5 分钟</span>
-              <b>选择女生版 <span aria-hidden="true">→</span></b>
+              <b>选择这组情境 <span aria-hidden="true">→</span></b>
             </button>
           </div>
           <p class="privacy-note">选择不会自动保存 · 不收集个人信息</p>
@@ -506,6 +532,16 @@
             <div class="report-evidence" id="coreEvidence"></div>
             <p class="small-note">报告优先描述本次选择。原型代表接近的组合，不要求每一条描述都符合你。</p>
           </article>
+        </div>
+        <div class="share-panel" aria-label="分享结果">
+          <div>
+            <h3 id="shareTitle">把这张结果名片带走</h3>
+            <p id="shareDescription">生成一张只包含结果类型、关键词和简短结论的图片，方便保存或分享。</p>
+          </div>
+          <div class="share-actions">
+            <button class="primary-btn" id="downloadShareBtn" type="button"><span aria-hidden="true">↓</span> 下载结果名片</button>
+            <button class="secondary-btn" id="copyResultBtn" type="button"><span aria-hidden="true">▣</span> 复制结果摘要</button>
+          </div>
         </div>
         <section class="result-section">
           <div class="section-title"><h3>把恋爱习惯，展开成十个维度</h3><p>0–100 分表示取向，不是优秀程度或人群排名</p></div>
@@ -581,7 +617,7 @@ const archetypes = [
     keywords: ['直接心动', '行动迅速', '鲜明表达', '双向回应']
   },
   {
-    key: 'rabbit', animal: '兔', name: '月光兔型', colors: ['#f6dedd', '#f5eee5', '#d76562'],
+    key: 'rabbit', animal: '兔', name: '柔光兔型', colors: ['#f6dedd', '#f5eee5', '#d76562'],
     profile: { initiative: 42, reassurance: 77, boundaries: 46, expression: 33, repair: 49, independence: 42, romance: 82, responsibility: 61, control: 34, commitment: 74 },
     tagline: '一句被记住的话，可能比盛大的告白更让你心动。',
     traits: ['在意温度', '心意细腻', '含蓄靠近'],
@@ -637,7 +673,7 @@ const archetypes = [
     keywords: ['自由靠近', '热情分享', '新鲜体验', '各自生长']
   },
   {
-    key: 'goat', animal: '羊', name: '相伴羊型', colors: ['#e8e4dc', '#a5a39a', '#d7947e'],
+    key: 'goat', animal: '羊', name: '暖伴羊型', colors: ['#e8e4dc', '#a5a39a', '#d7947e'],
     profile: { initiative: 37, reassurance: 85, boundaries: 29, expression: 62, repair: 73, independence: 29, romance: 57, responsibility: 69, control: 33, commitment: 81 },
     tagline: '平凡的事有人一起做，也会成为很重要的幸福。',
     traits: ['珍惜陪伴', '愿意协商', '重视我们'],
@@ -651,7 +687,7 @@ const archetypes = [
     keywords: ['日常陪伴', '共同节奏', '柔和协商', '需要被选']
   },
   {
-    key: 'monkey', animal: '猴', name: '灵感猴型', colors: ['#f0ddbf', '#a66e4b', '#e66f63'],
+    key: 'monkey', animal: '猴', name: '灵趣猴型', colors: ['#f0ddbf', '#a66e4b', '#e66f63'],
     profile: { initiative: 75, reassurance: 38, boundaries: 63, expression: 73, repair: 76, independence: 69, romance: 91, responsibility: 48, control: 43, commitment: 42 },
     tagline: '爱是不断发现：原来我们还可以这样一起玩。',
     traits: ['制造惊喜', '互动有趣', '乐于尝试'],
@@ -665,7 +701,7 @@ const archetypes = [
     keywords: ['互动火花', '创意约会', '轻松表达', '一起试试']
   },
   {
-    key: 'rooster', animal: '鸡', name: '有序鸡型', colors: ['#f3e3bd', '#d39c43', '#cf5d58'],
+    key: 'rooster', animal: '鸡', name: '细筑鸡型', colors: ['#f3e3bd', '#d39c43', '#cf5d58'],
     profile: { initiative: 56, reassurance: 72, boundaries: 77, expression: 70, repair: 81, independence: 70, romance: 36, responsibility: 88, control: 82, commitment: 82 },
     tagline: '把在意的事说清楚，才能放心把日子交给彼此。',
     traits: ['明确约定', '细节落实', '重视分寸'],
@@ -1179,8 +1215,8 @@ function scoreAnswers(bank, selections) {
 
 
 const versionConfig = {
-  male: { key: 'male', label: '男生版', questions: questionBanks.male },
-  female: { key: 'female', label: '女生版', questions: questionBanks.female }
+  male: { key: 'male', label: '男生情境版', questions: questionBanks.male },
+  female: { key: 'female', label: '女生情境版', questions: questionBanks.female }
 };
 const STORAGE_KEY = 'moon-zodiac-love-result-v1';
 let selectedVersion = null;
@@ -1418,6 +1454,180 @@ function renderResult() {
   updateSavedControls();
 }
 
+function getShareSnapshot() {
+  const result = calculateResult();
+  const type = result.archetype;
+  const prominent = strongestDimensions(result).slice(0, 3);
+  const keywords = prominent.map(dimension => dimension.words[bandIndex(result.scores[dimension.key])]);
+  return { result, type, prominent, keywords };
+}
+
+function buildShareSummary() {
+  const snapshot = getShareSnapshot();
+  const siteUrl = window.location.protocol === 'file:' ? 'https://ruofengw.github.io/' : window.location.href.split('#')[0];
+  return [
+    '月下生肖｜' + snapshot.type.name,
+    snapshot.type.tagline,
+    '关键词：' + snapshot.keywords.join(' · '),
+    '完成情境题，看看你的关系相处地图：' + siteUrl
+  ].join('\n');
+}
+
+function drawWrappedText(context, text, x, y, maxWidth, lineHeight, maxLines) {
+  let line = '';
+  let lineCount = 0;
+  let consumed = 0;
+  for (const character of text) {
+    const candidate = line + character;
+    if (context.measureText(candidate).width > maxWidth && line) {
+      context.fillText(line, x, y + lineCount * lineHeight);
+      line = character;
+      consumed += line.length;
+      lineCount += 1;
+      if (lineCount === maxLines - 1) break;
+    } else {
+      line = candidate;
+      consumed += 1;
+    }
+  }
+  const remaining = text.slice(consumed);
+  if (lineCount < maxLines && line) context.fillText(line + (remaining ? '…' : ''), x, y + lineCount * lineHeight);
+  return Math.min(lineCount + 1, maxLines);
+}
+
+function drawRoundRect(context, x, y, width, height, radius, fill) {
+  context.beginPath();
+  context.moveTo(x + radius, y);
+  context.arcTo(x + width, y, x + width, y + height, radius);
+  context.arcTo(x + width, y + height, x, y + height, radius);
+  context.arcTo(x, y + height, x, y, radius);
+  context.arcTo(x, y, x + width, y, radius);
+  context.closePath();
+  context.fillStyle = fill;
+  context.fill();
+}
+
+async function downloadShareCard() {
+  const snapshot = getShareSnapshot();
+  const canvas = document.createElement('canvas');
+  canvas.width = 1200;
+  canvas.height = 630;
+  const context = canvas.getContext('2d');
+  if (!context) {
+    showToast('当前浏览器无法生成图片，请尝试截图保存。');
+    return;
+  }
+
+  context.fillStyle = '#fbf7f0';
+  context.fillRect(0, 0, canvas.width, canvas.height);
+  context.fillStyle = '#f5e5df';
+  context.beginPath();
+  context.arc(1080, 92, 210, 0, Math.PI * 2);
+  context.fill();
+  context.fillStyle = '#e8f0ec';
+  context.beginPath();
+  context.arc(1088, 548, 145, 0, Math.PI * 2);
+  context.fill();
+
+  drawRoundRect(context, 46, 46, 1108, 538, 28, '#1f2a44');
+  context.fillStyle = '#f3c3aa';
+  context.font = '700 20px "Microsoft YaHei", "PingFang SC", sans-serif';
+  context.fillText('月下生肖 · 关系相处地图', 86, 98);
+
+  context.fillStyle = '#fbf7f0';
+  context.beginPath();
+  context.arc(160, 255, 94, 0, Math.PI * 2);
+  context.fill();
+  context.fillStyle = snapshot.type.colors[0];
+  context.beginPath();
+  context.arc(160, 255, 83, 0, Math.PI * 2);
+  context.fill();
+  context.fillStyle = snapshot.type.colors[1];
+  context.font = '700 94px "Microsoft YaHei", "PingFang SC", sans-serif';
+  context.textAlign = 'center';
+  context.textBaseline = 'middle';
+  context.fillText(snapshot.type.animal, 160, 254);
+  context.textAlign = 'left';
+  context.textBaseline = 'alphabetic';
+
+  context.fillStyle = '#fbf7f0';
+  context.font = '700 52px "Microsoft YaHei", "PingFang SC", sans-serif';
+  context.fillText(snapshot.type.name, 300, 214);
+  context.fillStyle = '#dbe2eb';
+  context.font = '24px "Microsoft YaHei", "PingFang SC", sans-serif';
+  drawWrappedText(context, snapshot.type.tagline, 300, 260, 760, 36, 2);
+  context.fillStyle = '#f3c3aa';
+  context.font = '700 18px "Microsoft YaHei", "PingFang SC", sans-serif';
+  context.fillText('我的三个关键词', 300, 355);
+
+  let keywordX = 300;
+  snapshot.keywords.forEach(keyword => {
+    const width = context.measureText(keyword).width + 34;
+    drawRoundRect(context, keywordX, 378, width, 42, 21, '#f5e5df');
+    context.fillStyle = '#93443f';
+    context.font = '16px "Microsoft YaHei", "PingFang SC", sans-serif';
+    context.fillText(keyword, keywordX + 17, 405);
+    keywordX += width + 12;
+  });
+
+  context.fillStyle = '#f3c3aa';
+  context.font = '700 18px "Microsoft YaHei", "PingFang SC", sans-serif';
+  context.fillText('最靠近我的三个维度', 300, 478);
+  snapshot.prominent.forEach((dimension, index) => {
+    const score = Math.round(snapshot.result.scores[dimension.key]);
+    const x = 300 + index * 242;
+    context.fillStyle = '#fbf7f0';
+    context.font = '16px "Microsoft YaHei", "PingFang SC", sans-serif';
+    context.fillText(dimension.label, x, 515);
+    context.fillStyle = '#e76f63';
+    context.fillRect(x, 532, 180, 8);
+    context.fillStyle = '#fbf7f0';
+    context.font = '700 16px "Microsoft YaHei", "PingFang SC", sans-serif';
+    context.fillText(score + ' / 100', x, 568);
+  });
+  context.fillStyle = '#dbe2eb';
+  context.font = '15px "Microsoft YaHei", "PingFang SC", sans-serif';
+  context.fillText('ruofengw.github.io', 86, 548);
+
+  const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
+  if (!blob) {
+    showToast('当前浏览器无法生成图片，请尝试截图保存。');
+    return;
+  }
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = '月下生肖-' + snapshot.type.name + '-结果名片.png';
+  link.click();
+  window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+  showToast('结果名片已生成，正在下载。');
+}
+
+async function copyResultSummary() {
+  const summary = buildShareSummary();
+  let copied = false;
+  try {
+    if (navigator.clipboard && window.isSecureContext) {
+      await navigator.clipboard.writeText(summary);
+      copied = true;
+    }
+  } catch (error) {
+    copied = false;
+  }
+  if (!copied) {
+    const textarea = document.createElement('textarea');
+    textarea.value = summary;
+    textarea.setAttribute('readonly', '');
+    textarea.style.position = 'fixed';
+    textarea.style.opacity = '0';
+    document.body.appendChild(textarea);
+    textarea.select();
+    try { copied = document.execCommand('copy'); } catch (error) { copied = false; }
+    textarea.remove();
+  }
+  showToast(copied ? '结果摘要已复制。' : '复制失败，请手动选择结果文字。');
+}
+
 function submitReport() {
   const unanswered = answers.findIndex(answer => answer === null);
   if (unanswered !== -1) {
@@ -1457,6 +1667,8 @@ $('prevBtn').addEventListener('click', () => { if (currentIndex > 0) { currentIn
 $('nextBtn').addEventListener('click', validateAndNext);
 $('recalculateBtn').addEventListener('click', submitReport);
 $('saveResultBtn').addEventListener('click', saveCurrentResult);
+$('downloadShareBtn').addEventListener('click', downloadShareCard);
+$('copyResultBtn').addEventListener('click', copyResultSummary);
 $('editBtn').addEventListener('click', () => { currentIndex = 0; showView('quizView'); renderQuestion(); });
 $('restartBtn').addEventListener('click', chooseVersion);
 $('changeVersionBtn').addEventListener('click', chooseVersion);
